@@ -3,8 +3,6 @@ import logging as logging
 #logging.basicConfig(level=logging.INFO) #To activate loggers
 
 
-
-
 class Case:
 
     def __init__(self, x, y,bijoux, salete):

@@ -1,7 +1,7 @@
 from agent.aspi import Aspi
 from envir.grille import Grille
 from envir.case import Case
-
+import time
 
 if __name__ == "__main__":
    grille = Grille()

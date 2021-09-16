@@ -3,8 +3,6 @@ import random
 from envir.case import Case
 
 
- 
-
 class Grille:
     
     def __init__(self):
