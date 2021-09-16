@@ -1,18 +1,19 @@
 #!/usr/bin/python3
+
 import random
 from aspi import Aspi
 
-#Fonction pour donner place
+#Fonction pour donner une place random
 def randomPlace():
     return random.randint(0, 4)
 
-
+#Fonction pour initialiser le tableau
 def initialize():
     rows, cols = (5, 5) 
     arr = [[0 for i in range(cols)] for j in range(rows)] 
     return arr
 
-
+#Fonction qui affiche la grille (Pour l'instant)
 def displayGrid(arr, aspi):
     print("---------------------")
     for i in range(len(arr)):
@@ -24,6 +25,7 @@ def displayGrid(arr, aspi):
                 print "| "+str(arr[i][j])+"",
         print("---------------------")
 
+#Fonction qui ajoute de la poussiere random
 def add_dust(arr):
      for i in range(len(arr)):
         for j in range(len(arr[i])):
@@ -31,6 +33,7 @@ def add_dust(arr):
             if(num>0.7):
                 arr[i][j] = 1
 
+#Fonction qui ajoute le robot
 def add_robot(i,j,aspi,arr):
     if(i == aspi.get_y() and j == aspi.get_x()):
         arr[i][j]="A"
