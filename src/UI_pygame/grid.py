@@ -6,7 +6,7 @@ import sys
 import random
 
 black_color = (0, 0, 0)
-brown_color = (139,69,19) #brown
+brown_color = (139,69,19)
 white_color = (230, 230, 230)
 
 class Grid:
