@@ -1,6 +1,8 @@
 from agent.aspi import Aspi
 from envir.grille import Grille
 from envir.case import Case
+
+
 if __name__ == "__main__":
     grille = Grille()
     aspi = Aspi(grille.randomPlace(), grille.randomPlace(), 1000)
