@@ -41,6 +41,9 @@ class Aspi:
     def set_bdi(self,bdi):
         self._bdi=bdi
     
+    def useSensor(self,grid):
+        self._bdi.set_belief = grid.clone()
+    
 '''   def move_right(self):
         if(self.get_x() < 4):
             self.set_x(self.get_x()+1)
@@ -59,6 +62,4 @@ class Aspi:
 
 '''
 
-            
-    def useSensor(self,grid):
-        self._bdi.set_belief = grid.clone()
+        
