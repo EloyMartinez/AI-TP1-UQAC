@@ -48,4 +48,10 @@ class Aspi:
             self.set_y(self.get_y()-1)
             
     def useSensor(self,grid):
-        self._bdi.set_belief = grid.clone()
+        self._bdi.set_belief = grid.clone()  ## this allows the vacuum to have in its memory a picture of its environment
+        
+    def setIntent():
+        action = 'forceStart'  ## this action will allow us to check further actions
+        actionList = []
+        
+        
