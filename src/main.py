@@ -1,6 +1,5 @@
 from envir.grid import Grid
 from envir.case import Case
-import pygame
 import time
 
 if __name__ == "__main__":
@@ -8,6 +7,7 @@ if __name__ == "__main__":
 #     grille.
 #     aspi = Aspi(grille.randomPlace(), grille.randomPlace(), 1000)
     grille.initialize()
+    grille.clone()
 #     grille.add_dust(arr)
 #     #grille.displayGrid(arr, aspi)
 #     aspi.move_left()

@@ -1,9 +1,11 @@
+from agent.bdi import Bdi
 class Aspi:
 
     def __init__(self, x, y, ressources):
         self._x = x
         self._y = y
         self._ressources= ressources
+        self._bdi = Bdi()
     
     def get_x(self):        
         return self._x
@@ -22,6 +24,12 @@ class Aspi:
 
     def set_ressources(self, ressources): 
         self._ressources = ressources 
+        
+    def get_bdi(self):
+        return self._bdi
+    
+    def set_bdi(self,bdi):
+        self._bdi=bdi
     
     def move_right(self):
         if(self.get_x() < 4):
@@ -38,3 +46,6 @@ class Aspi:
     def move_down(self):
         if(self.get_y() > 0):
             self.set_y(self.get_y()-1)
+            
+    def useSensor(self,grid):
+        self._bdi.set_belief = grid.clone()
