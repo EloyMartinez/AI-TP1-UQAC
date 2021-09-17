@@ -1,13 +1,13 @@
-from agent.aspi import Aspi
-from envir.grille import Grille
+from envir.grid import Grid
 from envir.case import Case
+import pygame
 import time
 
 if __name__ == "__main__":
-   grille = Grille()
+    grille = Grid()
 #     grille.
 #     aspi = Aspi(grille.randomPlace(), grille.randomPlace(), 1000)
-grille.initialize()
+    grille.initialize()
 #     grille.add_dust(arr)
 #     #grille.displayGrid(arr, aspi)
 #     aspi.move_left()
@@ -26,9 +26,6 @@ grille.initialize()
 #     case.generate_salete()
 while True:
     grille.generateEnvr()
-    time.sleep(0.5)
-        
-        
+    grille.main()
+    time.sleep(5)
     
-    
-     

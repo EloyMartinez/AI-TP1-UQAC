@@ -9,10 +9,7 @@ class Grille:
         self.rows = 5
         self.cols = 5
         self.arr = [[0 for i in range(self.cols)] for j in range(self.rows)]
-    
-    #Fonction pour donner une place random
-    def randomPlace(self):
-        return random.randint(0, 4)
+
     
     #Fonction pour initialiser le tableau
     def initialize(self):
