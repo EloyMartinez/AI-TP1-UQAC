@@ -25,7 +25,7 @@ if __name__ == "__main__":
 #     case.generate_bijoux()
 #     case.generate_salete()
 while True:
-    grille.generateEnvr()
+    grille.generate_environment()
     grille.main()
     time.sleep(5)
     

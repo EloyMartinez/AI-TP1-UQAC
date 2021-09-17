@@ -6,24 +6,28 @@ import pygame
 
 class Case:
 
-    def __init__(self,x, y,bijoux, salete,grid):
-        self._bijoux = bijoux
-        self._salete = salete
+    # Constructeur
+    def __init__(self, x, y, jewel, dirt, grid):
+        self._jewel = jewel
+        self._dirt = dirt
         self._x = x
         self._y = y
         self._grid = grid
 
-    def get_bijoux(self):
-        return self._bijoux
 
-    def set_bijoux(self,bijoux):
-        self._bijoux = bijoux
 
-    def get_salete(self):
-        return self._salete
+    # Getters/Setters
+    def get_jewel(self):
+        return self._jewel
 
-    def set_salete(self,salete):
-        self._salete = salete
+    def set_jewel(self,jewel):
+        self._jewel = jewel
+
+    def get_dirt(self):
+        return self._dirt
+
+    def set_dirt(self,dirt):
+        self._dirt = dirt
 
     def get_x(self):        
         return self._x
@@ -43,28 +47,27 @@ class Case:
     def get_grid(self):
         return self._grid
 
-    def generate_bijoux(self):
+
+    
+    # Methodes
+    def generate_jewel(self):
         prob = random.random()
         if(prob<0.2):
-            if (not self.get_bijoux()):
-                self.set_bijoux(True)
-                self.get_grid().addBijoux(self.get_x(),self.get_y())
-                print("Bijoux ajoute en "+str(self.get_x())+","+str(self.get_y()))
+            if (not self.get_jewel()):
+                self.set_jewel(True)
+                self.get_grid().add_jewel(self.get_x(),self.get_y())
                 logging.info("Bijoux ajoute en "+str(self.get_x())+","+str(self.get_y()))
         else:
-            #print("Bug")
-            self._bijoux = False
+            self._jewel = False
     
-    def generate_salete(self):
+    def generate_dirt(self):
         prob = random.random()
         if(prob<0.7):
-            if (not self.get_salete()):
-                self.set_salete(True)
-                self.get_grid().addSalete(self.get_x(),self.get_y())
-                print("Salete ajoute en "+str(self.get_x())+","+str(self.get_y()))
+            if (not self.get_dirt()):
+                self.set_dirt(True)
+                self.get_grid().add_dirt(self.get_x(),self.get_y())
                 logging.info("Salete ajoute en "+str(self.get_x())+","+str(self.get_y()))
         else:
-            #print("Bug")
-            self._bijoux = False
+            self._dirt = False
             
         
