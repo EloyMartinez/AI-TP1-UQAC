@@ -6,7 +6,6 @@ import pygame
 import time
 import random
 
-
 if __name__ == "__main__":
     '''
     yo = Aspi(2,3,1000)
@@ -40,6 +39,7 @@ if __name__ == "__main__":
     aspi.get_effecteurs().move(aspi,"up")
     print(aspi.get_x())
     print(aspi.get_y())
+    grille.clone()
 #     grille.add_dust(arr)
 #     #grille.displayGrid(arr, aspi)
 #     aspi.move_left()

@@ -50,6 +50,14 @@ class Grid:
             for y in range(0, self.get_height(), self.get_block()):
                 pygame.draw.rect(self._screen, black_color, (x, y, self._blocksize, self._blocksize), 2)
                 self._arr[int(x/100)][int(y/100)] = Case(int(x/100),int(y/100),False,False,self)
+                
+    def clone(self):
+        cloneGrid = [[0 for i in range(0,5)] for y in range(0,5)] 
+        for x in range(0, self.get_width(),  self.get_block()):
+            for y in range(0, self.get_height(), self.get_block()):
+                cloneGrid[int(x/100)][int(y/100)] = self._arr[int(x/100)][int(y/100)]
+        return cloneGrid
+        
     
     #Fonction pour generer les bijoux et salete
     def generate_environment(self):

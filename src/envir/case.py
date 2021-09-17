@@ -69,5 +69,5 @@ class Case:
                 logging.info("Salete ajoute en "+str(self.get_x())+","+str(self.get_y()))
         else:
             self._dirt = False
-            
+ 
         
