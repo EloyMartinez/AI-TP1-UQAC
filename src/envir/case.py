@@ -69,5 +69,8 @@ class Case:
                 logging.info("Salete ajoute en "+str(self.get_x())+","+str(self.get_y()))
         else:
             self._dirt = False
+            
+    def clone(self):
+        return Case(self.get_x(),self.get_y(),self.get_jewel(),self.get_dirt(),self.get_grid())
  
         

@@ -37,6 +37,8 @@ class Grid:
     def get_block(self):
         return self._blocksize
 
+    def get_arr(self):
+        return self._arr
 
 
 

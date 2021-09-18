@@ -58,13 +58,19 @@ class Noeud:
 	# 	return successors;
 	# }
  
+    def expand(self,grid,agent):
+        succesors = []
+        actions = self.possibleActions()
+        for a in actions:
+            succesor = Noeud(self,self.get_parent.get_cost() + 1,0,a,self.get_depth()+1,actionCase())
+ 
  
     def possibleActions(self):
         actions = []
         if self._currentCase.getJewel() == 1:
             actions.append("grab")
         if self._currentCase.getDirt() == 1:
-            actions.append("aspire")
+            actions.append("suck")
         if self._currentCase.getPositionJ() != 5:
             actions.append("right")
         if self._currentCase.getPositionJ() != 0:    
@@ -74,6 +80,28 @@ class Noeud:
         if self._currentCase.getPositionI() != 0:
             actions.append("up")
         return actions
+    
+    def actionCase(self,action,grid):
+        currentActionCase = ((grid.get_arr())[self.get_currentCase().get_x()][self.get_currentCase().get_y()]).clone()
+        if(action == "grab"):
+            currentActionCase.set_jewel(False)
+        elif(action == "suck"):
+            currentActionCase.set_jewel(False)
+            currentActionCase.set_dirt(False)
+        elif(action == "right"):
+            if(currentActionCase.get_x() < 4):
+                currentActionCase= ((grid.get_arr())[self.get_currentCase().get_x()+1][self.get_currentCase().get_y()]).clone()
+        elif(action == "left"):
+            if(currentActionCase.get_x() > 0):
+                currentActionCase= ((grid.get_arr())[self.get_currentCase().get_x()-1][self.get_currentCase().get_y()]).clone()
+        elif(action == "down"):
+            if(currentActionCase.get_y() < 4):
+                currentActionCase= ((grid.get_arr())[self.get_currentCase().get_x()][self.get_currentCase().get_y()]+1).clone()
+        elif(action == "up"):
+            if(currentActionCase.get_y() > 0):
+                currentActionCase= ((grid.get_arr())[self.get_currentCase().get_x()][self.get_currentCase().get_y()]-1).clone()
+        return currentActionCase
+
 
 	
         
