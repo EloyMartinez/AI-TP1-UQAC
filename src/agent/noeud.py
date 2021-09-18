@@ -61,8 +61,10 @@ class Noeud:
     def expand(self,grid,agent):
         succesors = []
         actions = self.possibleActions()
+        goalCase = agent.findBoxGoal()  #we get the goalCase once bc the agent doesnt move till the end of the sim
         for a in actions:
-            succesor = Noeud(self,self.get_parent.get_cost() + 1,0,a,self.get_depth()+1,actionCase())
+            succesor = Noeud(self,self.get_parent.get_cost() + 1,0,a,self.get_depth()+1,self.actionCase(a,grid))
+            succesor.Heuristique()
  
  
     def possibleActions(self):
