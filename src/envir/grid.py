@@ -27,7 +27,6 @@ class Grid:
 
     
     
-    
     ### Getters/Setters
     def get_width(self):
         return self._width
@@ -46,7 +45,7 @@ class Grid:
     #Fonction pour initialiser la grille
     #On va parcourir x et y de 0 à 500 avec un pas de 100
     def initialize(self):
-        self.add_vaccum()
+        #self.add_vaccum()
         for x in range(0, self.get_width(),  self.get_block()):
             for y in range(0, self.get_height(), self.get_block()):
                 pygame.draw.rect(self._screen, black_color, (x, y, self._blocksize, self._blocksize), 2)
@@ -89,15 +88,13 @@ class Grid:
         print("add_Jewel : " + str(x) + "  " +str(y))
         jewel = pygame.image.load('envir/img/jewel.png')
         pic_jewel = pygame.transform.scale(jewel, (50, 50))
-        self._screen.blit(pic_jewel, (x+50,y))
+        self._screen.blit(pic_jewel, (x+50,y-9))
 
 
-    def add_vaccum(self):
-        posX = random.randint(0, 4)
-        posY = random.randint(0, 4)
+    def add_vaccum(self, x, y):
         vaccum= pygame.image.load('envir/img/vaccum.png')
         pic_vaccum = pygame.transform.scale(vaccum, (50, 50))
-        self._screen.blit(pic_vaccum, ((posX*100)+40,(posY*100)+40))
+        self._screen.blit(pic_vaccum, ((x*100)+40,(y*100)+40))
 
     #Boucle pour l'affichage de la grille
     def main(self):

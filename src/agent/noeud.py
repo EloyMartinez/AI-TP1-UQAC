@@ -61,17 +61,17 @@ class Noeud:
  
     def possibleActions(self):
         actions = []
-        if currentCase.getJewel() == 1:
+        if self._currentCase.getJewel() == 1:
             actions.append("grab")
-        if currentCase.getDirt() == 1:
+        if self._currentCase.getDirt() == 1:
             actions.append("aspire")
-        if currentCase.getPositionJ() != 5:
+        if self._currentCase.getPositionJ() != 5:
             actions.append("right")
-        if currentCase.getPositionJ() != 0:    
+        if self._currentCase.getPositionJ() != 0:    
             actions.append("left")
-        if currentCase.getPositionI() != 5:
+        if self._currentCase.getPositionI() != 5:
             actions.append("down")
-        if currentCase.getPositionI() != 0:
+        if self._currentCase.getPositionI() != 0:
             actions.append("up")
         return actions
 

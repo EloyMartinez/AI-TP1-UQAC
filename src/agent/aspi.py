@@ -1,10 +1,14 @@
+from agent import effecteurs
+from agent.effecteurs import Effecteurs
 from agent.bdi import Bdi
+
 class Aspi:
 
     def __init__(self, x, y, ressources):
         self._x = x
         self._y = y
         self._ressources= ressources
+        self._effecteurs= Effecteurs()
         self._bdi = Bdi()
     
     def get_x(self):        
@@ -21,6 +25,12 @@ class Aspi:
 
     def get_ressoucres(self):
         return self._ressources
+    
+    def get_effecteurs(self):
+        return self._effecteurs
+
+    def set_ressources(self, effecteurs): 
+        self._effecteurs = effecteurs 
 
     def set_ressources(self, ressources): 
         self._ressources = ressources 
@@ -31,7 +41,10 @@ class Aspi:
     def set_bdi(self,bdi):
         self._bdi=bdi
     
-    def move_right(self):
+    def useSensor(self,grid):
+        self._bdi.set_belief = grid.clone()
+    
+'''   def move_right(self):
         if(self.get_x() < 4):
             self.set_x(self.get_x()+1)
 
@@ -53,5 +66,5 @@ class Aspi:
     def setIntent():
         action = 'forceStart'  ## this action will allow us to check further actions
         actionList = []
-        
+ '''        
         
