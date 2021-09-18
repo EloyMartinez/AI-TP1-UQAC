@@ -43,6 +43,34 @@ class Aspi:
     
     def useSensor(self,grid):
         self._bdi.set_belief = grid.clone()
+        
+    def findBoxGoal(self):
+        closest = []
+        for x in range(0, 5):
+            for y in range(0, 5):
+                currentCase = self.get_bdi().get_belief()[x][y]
+                if(currentCase.get_dirt()):
+                    if(self.distance(self,closest,currentCase)):
+                        closest = currentCase
+        if(closest == []):
+            return None  ### !!!!! WE HAVE TO CHECK IF RESULT IS NOT NONE
+        return closest
+    
+    def norme(self,potentialGoal):
+        return (abs(potentialGoal.get_x() - self.get_x()) + abs(potentialGoal.get_y() - self.get_y()))
+            
+    
+    def distance(self,closestBox,currentCase):
+        if closestBox == []:
+            return True
+        else:
+            if(self.norme(closestBox)>self.norme(currentCase)):
+                return True
+            else:
+                return False
+            
+    
+    
     
 '''   def move_right(self):
         if(self.get_x() < 4):
