@@ -54,9 +54,11 @@ class Grid:
                 self._arr[int(x/100)][int(y/100)] = Case(int(x/100),int(y/100),False,False,self)
                 
     def clone(self):
+       # clone_grid = Grid()
         cloneGrid = [[0 for i in range(0,5)] for y in range(0,5)] 
         for x in range(0, self.get_width(),  self.get_block()):
             for y in range(0, self.get_height(), self.get_block()):
+               #clone_grid._arr[int(x/100)][int(y/100)] = self._arr[int(x/100)][int(y/100)]
                 cloneGrid[int(x/100)][int(y/100)] = self._arr[int(x/100)][int(y/100)]
         return cloneGrid
         
@@ -107,5 +109,8 @@ class Grid:
         pygame.display.update()
 
 
-
+    #Boucle pour l'affichage de la grille
+    def display(self):
+        print(self.get_arr())
+               
 
