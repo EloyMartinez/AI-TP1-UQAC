@@ -87,5 +87,45 @@ class Aspi:
             return startNode
         nodelist = []
         nodelist.append(startNode)
+        while(not self.isGrabOrSuck(nodelist[0])):
+            node = nodelist[0]
+            del nodelist[0]
+            nodelist =+ node.expand(self.get_bdi().get_belief(),self)  ## we want to add list of extended nodes into list of nodes  //array concatination
+            sort(nodelist)
+        return nodelist[0]
+            
+        
+    def mesurePerformance(self,action,node):
+        point = 0
+        if(action=='grab'):
+            point = point + 10
+        if(action == 'suck'):
+            if((self.get_bdi().get_belief()[node.get_currentCase().get_x()][node.get_currentCase().get_y()]).get_dirt()):
+                point = point + 20
+            if((self.get_bdi().get_belief()[node.get_currentCase().get_x()][node.get_currentCase().get_y()]).get_jewel()):
+                point = point - 30
+            point = point - 1 #L'energie depense
+        else:
+            point = point - 1 #pour tout autre mouvement
+            
+    def calculateCost(self,node):
+        action = 'forceStart' 
+        cost = 0
+        while (action != 'origin'):  ## noeud initial
+            action = node.get_action()
+            cost = cost + node.get_cost()
+            node = node.get_parent()
+        return cost
+        
+    
+    def isGrabOrSuck(self,node):
+        if(self.get_points() < (self.get_points() + self.calculateCost(node))):
+            return True
+        else:
+            return False
+        
+        
+                
+                
         
         
