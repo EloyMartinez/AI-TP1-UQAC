@@ -44,27 +44,21 @@ class Noeud:
     def set_currentCase(self, currentCase): 
         self._action = currentCase
         
-	# def expand(grid, agent) {
-	# 	 successors = []
-	# 	 actions = self.possibleActions()
-	# 	for (String act : actions) {
-	# 		Node s = new Node(this, simulAct(act, belief), act, this.depth + 1, costAction(action) + parent.getCost(),
-	# 				0);
-	# 		if (agent != null) {
-	# 			s.affectHeuristique(agent);
-	# 		}
-	# 		successors.add(s);
-	# 	}
-	# 	return successors;
-	# }
- 
-    def expand(self,grid,agent):
+    def expand(self,grid,aspi):
         succesors = []
         actions = self.possibleActions()
-        goalCase = agent.findBoxGoal()  #we get the goalCase once bc the agent doesnt move till the end of the sim
-        for a in actions:
-            succesor = Noeud(self,self.get_parent.get_cost() + 1,0,a,self.get_depth()+1,self.actionCase(a,grid))
-            succesor.Heuristique()
+        goalCase = aspi.findBoxGoal()  #we get the goalCase once bc the agent doesnt move till the end of the sim
+        if(goalCase!=None):
+            for a in actions:
+                currentCase=self.actionCase(a,grid)
+                succesors.append(Noeud(self,self.get_parent.get_cost() + 1,self.norme(currentCase,goalCase),a,self.get_depth()+1,currentCase))
+            return succesors
+        else:
+            return None ### we have to check if return is none
+             
+            
+    def norme(self,currentcase,goal):
+        return (abs(goal.get_x() - currentcase.get_x()) + abs(goal.get_y() - currentcase.get_y()))
  
  
     def possibleActions(self):

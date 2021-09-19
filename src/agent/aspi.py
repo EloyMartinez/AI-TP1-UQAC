@@ -1,6 +1,7 @@
 from agent import effecteurs
 from agent.effecteurs import Effecteurs
 from agent.bdi import Bdi
+from agent.noeud import Noeud
 
 class Aspi:
 
@@ -68,31 +69,23 @@ class Aspi:
                 return True
             else:
                 return False
-            
-    
-    
-    
-'''   def move_right(self):
-        if(self.get_x() < 4):
-            self.set_x(self.get_x()+1)
-
-    def move_left(self):
-        if(self.get_x() > 0):
-            self.set_x(self.get_x()-1)
-
-    def move_up(self):
-        if(self.get_y() < 4):
-            self.set_y(self.get_y()+1)
-
-    def move_down(self):
-        if(self.get_y() > 0):
-            self.set_y(self.get_y()-1)
-            
-    def useSensor(self,grid):
-        self._bdi.set_belief = grid.clone()  ## this allows the vacuum to have in its memory a picture of its environment
-        
-    def setIntent():
+   
+    def setIntent(self):
         action = 'forceStart'  ## this action will allow us to check further actions
         actionList = []
- '''        
+        node = aStar(self.get_bdi().get_belief())
+        while(action != 'origin'):
+            action = node.get_action()
+            node = node.get_parent()
+            actionList.append(action)
+        self.set_bdi().set_intent(actionList)
+    
+    def aStar(self,grid):
+        goal = self.findBoxGoal()
+        startNode = Noeud(None,0,self.norme(goal),'origin',0,grid.get_arr()[self.get_x()][self.get_y()]) 
+        if(goal==None):
+            return startNode
+        nodelist = []
+        nodelist.append(startNode)
+        
         
