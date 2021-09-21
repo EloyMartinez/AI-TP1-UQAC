@@ -51,7 +51,16 @@ class Noeud:
         if(goalCase!=None):
             for a in actions:
                 currentCase=self.actionCase(a,grid)
-                succesors.append(Noeud(self,self.get_parent.get_cost() + 1,self.norme(currentCase,goalCase),a,self.get_depth()+1,currentCase))
+                print("SELF.GET_PARENT")
+                print(self.get_parent())
+                print("L'action est : " + a)
+                if(self.get_parent() == None):
+                           # startNode = Noeud(None,0,self.norme(goal),str('origin'),0,grid[self.get_x()][self.get_y()]) 
+                    tmp = Noeud(self,1,self.norme(currentCase,goalCase),a,1,currentCase)
+                    print(tmp.get_parent())
+                    succesors.append(tmp)
+                else:
+                    succesors.append(Noeud(self,self.get_parent().get_cost() + 1,self.norme(currentCase,goalCase),a,self.get_depth()+1,currentCase))
             return succesors
         else:
             return None ### we have to check if return is none
@@ -63,22 +72,22 @@ class Noeud:
  
     def possibleActions(self):
         actions = []
-        if self._currentCase.getJewel() == 1:
+        if self._currentCase.get_jewel() == 1:
             actions.append("grab")
-        if self._currentCase.getDirt() == 1:
+        if self._currentCase.get_dirt() == 1:
             actions.append("suck")
-        if self._currentCase.getPositionJ() != 4:
+        if self._currentCase.get_x() != 4:
             actions.append("right")
-        if self._currentCase.getPositionJ() != 0:    
+        if self._currentCase.get_x() != 0:    
             actions.append("left")
-        if self._currentCase.getPositionI() != 4:
+        if self._currentCase.get_y() != 4:
             actions.append("down")
-        if self._currentCase.getPositionI() != 0:
+        if self._currentCase.get_y() != 0:
             actions.append("up")
         return actions
     
     def actionCase(self,action,grid):
-        currentActionCase = (grid.get_arr())[self.get_currentCase().get_x()][self.get_currentCase().get_y()].clone()
+        currentActionCase = (grid)[self.get_currentCase().get_x()][self.get_currentCase().get_y()].clone()
         if(action == "grab"):
             currentActionCase.set_jewel(False)
         elif(action == "suck"):
@@ -86,22 +95,22 @@ class Noeud:
             currentActionCase.set_dirt(False)
         elif(action == "right"):
             if(currentActionCase.get_x() < 4):
-                currentActionCase= (grid.get_arr())[self.get_currentCase().get_x()+1][self.get_currentCase().get_y()].clone()
-                print("RIGHT -> X : " + str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
+                currentActionCase= (grid)[self.get_currentCase().get_x()+1][self.get_currentCase().get_y()].clone()
+                print("RIGHT -> X : " + str(currentActionCase.get_x()+1) + " Y : " +str(currentActionCase.get_y()))
         elif(action == "left"):
             if(currentActionCase.get_x() > 0):
-                currentActionCase= (grid.get_arr())[self.get_currentCase().get_x()-1][self.get_currentCase().get_y()].clone()
-                print("LEFT -> X : " +str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
+                currentActionCase= (grid)[self.get_currentCase().get_x()-1][self.get_currentCase().get_y()].clone()
+                print("LEFT -> X : " +str(currentActionCase.get_x()-1) + " Y : " +str(currentActionCase.get_y()))
 
         elif(action == "down"):
             if(currentActionCase.get_y() < 4):
-                currentActionCase= (grid.get_arr())[self.get_currentCase().get_x()][self.get_currentCase().get_y()-1].clone()
-                print("DOWN -> X : " +str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
+                currentActionCase= (grid)[self.get_currentCase().get_x()][self.get_currentCase().get_y()-1].clone()
+                print("DOWN -> X : " +str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()-1))
 
         elif(action == "up"):
             if(currentActionCase.get_y() > 0):
-                currentActionCase= (grid.get_arr())[self.get_currentCase().get_x()][self.get_currentCase().get_y()-1].clone()
-                #print("UP -> X : " + str(currentActionCase.get_x()) + " Y : " + str(currentActionCase.get_y()))
+                currentActionCase= (grid)[self.get_currentCase().get_x()][self.get_currentCase().get_y()+1].clone()
+                print("UP -> X : " + str(currentActionCase.get_x()) + " Y : " + str(currentActionCase.get_y()+1))
 
         return currentActionCase
 

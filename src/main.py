@@ -35,9 +35,11 @@ if __name__ == "__main__":
    
     grille = Grid()
     aspi = Aspi(random.randint(0,4), random.randint(0,4), 1000)
-    print(aspi.get_x())
-    print(aspi.get_y())
+    print("Les coordonnées de l'aspi : ")
+    print("en x : " + str(aspi.get_x()))
+    print("en y : " + str(aspi.get_y()))
 
+    ''' TEST DU SORT
     noeud = [
             Noeud(None, 2, 3,"1", 1, grille.get_arr()[aspi.get_x()][aspi.get_y()]),
             Noeud(None, 0, 1,"2", 1, grille.get_arr()[aspi.get_x()][aspi.get_y()]),
@@ -48,10 +50,11 @@ if __name__ == "__main__":
     noeud.sort(key=lambda x: x.get_cost()+x.get_distance())
     for test in noeud:
         print(test.get_action())
+    '''
 
-#     aspi = Aspi(grille.randomPlace(), grille.randomPlace(), 1000)
+    #aspi = Aspi(grille.randomPlace(), grille.randomPlace(), 1000)
    
-   # a = grille.clone()
+    #a = grille.clone()
     grille.initialize()
 
    # grille.display()
@@ -67,6 +70,7 @@ if __name__ == "__main__":
     grille.add_vaccum(aspi.get_x(), aspi.get_y())
 
     sensor = sensor(True)
+
 
 #   aspi.get_effecteurs().move(aspi,"up")
 #    print(aspi.get_x())
@@ -92,6 +96,9 @@ boole = False
 while True:
     grille.generate_environment()
     grille.main()
+    aspi.useSensor(grille)
+    aspi.setIntent()
+
     if(boole==False):
 
         ### CLONE GRILLE 

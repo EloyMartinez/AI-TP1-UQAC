@@ -52,7 +52,7 @@ class Case:
     # Methodes
     def generate_jewel(self):
         prob = random.random()
-        if(prob<0.2):
+        if(prob<0.1):
             if (not self.get_jewel()):
                 self.set_jewel(True)
                 self.get_grid().add_jewel(self.get_x(),self.get_y())
@@ -62,14 +62,15 @@ class Case:
     
     def generate_dirt(self):
         prob = random.random()
-        if(prob<0.7):
+        if(prob<0.1):
             if (not self.get_dirt()):
                 self.set_dirt(True)
                 self.get_grid().add_dirt(self.get_x(),self.get_y())
                 logging.info("Salete ajoute en "+str(self.get_x())+","+str(self.get_y()))
         else:
             self._dirt = False
-            
+        
+    
     def clone(self):
         return Case(self.get_x(),self.get_y(),self.get_jewel(),self.get_dirt(),self.get_grid())
  

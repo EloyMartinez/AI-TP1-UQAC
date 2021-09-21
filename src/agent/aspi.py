@@ -11,6 +11,7 @@ class Aspi:
         self._ressources= ressources
         self._effecteurs= Effecteurs()
         self._bdi = Bdi()
+        self._points = 0
     
     def get_x(self):        
         return self._x
@@ -42,11 +43,18 @@ class Aspi:
     def set_bdi(self,bdi):
         self._bdi=bdi
     
+    def set_points(self, points):
+        self._points = points
+    
+    def get_points(self):
+       return self._points
    
     #Fonction qui va permettre à l'aspirateur de connaitre la grille
     def useSensor(self,grid):
         #C'est un tableau
-        self._bdi.set_belief = grid.clone()
+        self._bdi.set_belief(grid.clone())
+       # print(grid.clone())
+       # print("Use sensor " + str(self._bdi.get_belief()))
 
 
     ## ATTENTION ICI, L'OBJET VA PRENDRE UNE VALEUR CAR ON LUI AFFECTE UNE VALEUR DE ARRAY
@@ -56,10 +64,11 @@ class Aspi:
             for y in range(0, 5):
                 #Pour chaque Case de la grille que connait l'aspi
                 currentCase = self.get_bdi().get_belief()[x][y]
+                print("x : " + str(x) + " - y: " + str(y) + "//  currentCase :" +str(currentCase))
                 #Check pour voir la saleté
                 if(currentCase.get_dirt()):
                     #Si sale alors on clacule la distance avec la case courante avec distance()
-                    if(self.distance(self,closest,currentCase)):
+                    if(self.distance(closest,currentCase)):
                         #Si c'est la plus proche on affecte cette case a closest
                         closest = currentCase
         #A la fin du parcours de toutes les cases
@@ -67,6 +76,8 @@ class Aspi:
         if(closest == []):
             return None  ### !!!!! WE HAVE TO CHECK IF RESULT IS NOT NONE
         #On retourne la case
+        print("La case la plus proche " + str(closest))
+        print("La case la plus proche X : " +str(closest.get_x()) + " // y : " + str(closest.get_y()))
         return closest
     
     #Calculer la norme entre 2 cases : la case actuelle et la case que l'on veut comparer
@@ -85,31 +96,47 @@ class Aspi:
    
 
     def setIntent(self):
-        action = 'forceStart'  ## this action will allow us to check further actions
+        action = 'forceStart'  ## This action will allow us to check further actions
         actionList = []
-        node = aStar(self.get_bdi().get_belief())
+        print("get belief " + str(self.get_bdi().get_belief())) 
+        print()
+        print("*******************************************************************************************************************************")
+        print()
+       # print(self.get_bdi().get_belief())
+        node = self.aStar(self.get_bdi().get_belief())
+        print("Current Case x : " + str(node.get_currentCase().get_x()))
+        print("Current Case y : " + str(node.get_currentCase().get_y()))
+
         while(action != 'origin'):
             action = node.get_action()
+            print("Action : " + str(action))
             node = node.get_parent()
             actionList.append(action)
-        self.set_bdi().set_intent(actionList)
+        self.get_bdi().set_intent(actionList)
     
     #Algo de recherche informé
     def aStar(self,grid):
         #On trouve la case que l'on veut
         goal = self.findBoxGoal()
+
         #On instancie un noeud sans parent, avec la norme avec la goal case, comme action origin, profondeur de 0 et la case courante
-        startNode = Noeud(None,0,self.norme(goal),'origin',0,grid.get_arr()[self.get_x()][self.get_y()]) 
+        startNode = Noeud(None,0,self.norme(goal),str('origin'),0,grid[self.get_x()][self.get_y()]) 
         if(goal==None):
             return startNode
         #Creation d'un objet vide
+
+        print("Goal find : En x " + str(goal.get_x()) + " - EN y " + str(goal.get_y()))
+        print("grid :" + str(grid))
         nodelist = []
         nodelist.append(startNode)
         while(not self.isGrabOrSuck(nodelist[0])):
+            print("Dans le while isGrabOrSuck")
             node = nodelist[0]
             del nodelist[0]
-            nodelist =+ node.expand(self.get_bdi().get_belief(),self)  ## we want to add list of extended nodes into list of nodes  //array concatination
-            sort(nodelist)# a implementer
+            nodelist = nodelist+node.expand(self.get_bdi().get_belief(),self)  ## we want to add list of extended nodes into list of nodes  //array concatination
+            for a in nodelist:
+                print(a.get_parent())
+            self.sort(nodelist)# a implementer
         return nodelist[0]
             
     #Point a mettre en global
@@ -143,7 +170,7 @@ class Aspi:
             return False
 
     def sort(self, list_noeud):
-        list_noeud.sort(key=lambda x: x.get_cost+x.get_distance())
+        list_noeud.sort(key=lambda x: int(x.get_cost())+int(x.get_distance()))
     
 
      
