@@ -7,8 +7,8 @@ class Bdi:
     def get_belief(self):
         return self._belief
     
-    def set_belief(self,grid):
-        self._belief = grid
+    def set_belief(self,array):
+        self._belief = array
         
     def get_intent(self):
         return self._intent

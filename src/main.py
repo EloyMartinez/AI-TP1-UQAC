@@ -80,12 +80,15 @@ while True:
     grille.generate_environment()
     grille.main()
     if(boole==False):
-        array_clone = sensor.capture(grille)
-        print(array_clone[aspi.get_x()][aspi.get_y()].get_jewel())
-        print(array_clone[aspi.get_x()][aspi.get_y()].get_dirt())
-        print(grille.get_arr()[aspi.get_x()][aspi.get_y()].get_jewel())
-        print(grille.get_arr()[aspi.get_x()][aspi.get_y()].get_dirt())
 
+        ### CLONE GRILLE 
+        # array_clone = sensor.capture(grille)
+        # print(array_clone[aspi.get_x()][aspi.get_y()].get_jewel())
+        # print(array_clone[aspi.get_x()][aspi.get_y()].get_dirt())
+        # print(grille.get_arr()[aspi.get_x()][aspi.get_y()].get_jewel())
+        # print(grille.get_arr()[aspi.get_x()][aspi.get_y()].get_dirt())
+
+        ### CLONE DE LA CASE
     #     print(grille.get_arr()[aspi.get_x()][aspi.get_y()-1].get_dirt())
     #     print(grille.get_arr()[aspi.get_x()][aspi.get_y()-1].get_jewel())
 

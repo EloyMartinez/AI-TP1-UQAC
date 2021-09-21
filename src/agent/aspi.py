@@ -42,21 +42,34 @@ class Aspi:
     def set_bdi(self,bdi):
         self._bdi=bdi
     
+   
+    #Fonction qui va permettre à l'aspirateur de connaitre la grille
     def useSensor(self,grid):
+        #C'est un tableau
         self._bdi.set_belief = grid.clone()
-        
+
+
+    ## ATTENTION ICI, L'OBJET VA PRENDRE UNE VALEUR CAR ON LUI AFFECTE UNE VALEUR DE ARRAY
     def findBoxGoal(self):
-        closest = []
+        closest = []  #this is supposed to be a case
         for x in range(0, 5):
             for y in range(0, 5):
+                #Pour chaque Case de la grille que connait l'aspi
                 currentCase = self.get_bdi().get_belief()[x][y]
+                #Check pour voir la saleté
                 if(currentCase.get_dirt()):
+                    #Si sale alors on clacule la distance avec la case courante avec distance()
                     if(self.distance(self,closest,currentCase)):
+                        #Si c'est la plus proche on affecte cette case a closest
                         closest = currentCase
+        #A la fin du parcours de toutes les cases
+        #Check si le tableau est vide
         if(closest == []):
             return None  ### !!!!! WE HAVE TO CHECK IF RESULT IS NOT NONE
+        #On retourne la case
         return closest
     
+    #Calculer la norme entre 2 cases : la case actuelle et la case que l'on veut comparer
     def norme(self,potentialGoal):
         return (abs(potentialGoal.get_x() - self.get_x()) + abs(potentialGoal.get_y() - self.get_y()))
             
@@ -70,6 +83,7 @@ class Aspi:
             else:
                 return False
    
+
     def setIntent(self):
         action = 'forceStart'  ## this action will allow us to check further actions
         actionList = []
@@ -80,21 +94,25 @@ class Aspi:
             actionList.append(action)
         self.set_bdi().set_intent(actionList)
     
+    #Algo de recherche informé
     def aStar(self,grid):
+        #On trouve la case que l'on veut
         goal = self.findBoxGoal()
+        #On instancie un noeud sans parent, avec la norme avec la goal case, comme action origin, profondeur de 0 et la case courante
         startNode = Noeud(None,0,self.norme(goal),'origin',0,grid.get_arr()[self.get_x()][self.get_y()]) 
         if(goal==None):
             return startNode
+        #Creation d'un objet vide
         nodelist = []
         nodelist.append(startNode)
         while(not self.isGrabOrSuck(nodelist[0])):
             node = nodelist[0]
             del nodelist[0]
             nodelist =+ node.expand(self.get_bdi().get_belief(),self)  ## we want to add list of extended nodes into list of nodes  //array concatination
-            sort(nodelist)
+            sort(nodelist)# a implementer
         return nodelist[0]
             
-        
+    #Point a mettre en global
     def mesurePerformance(self,action,node):
         point = 0
         if(action=='grab'):
