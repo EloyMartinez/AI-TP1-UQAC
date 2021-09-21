@@ -142,14 +142,15 @@ class Aspi:
         else:
             return False
 
+''' Retourne juste un noeud : or il faut trier la liste et la retrouner
     def sort(self, list_noeud):
         closest_noeud = list_noeud[0]
         for noeud in list_noeud:
             if(noeud.get_distance() + noeud.get_cost() < list_noeud[0].get_distance() + noeud.get_cost() ):
                 closest_noeud = noeud
         return closest_noeud
-
-        
+'''
+     
         
                 
                 
