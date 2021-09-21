@@ -10,6 +10,8 @@ import random
 
 if __name__ == "__main__":
 
+
+
     '''
     yo = Aspi(2,3,1000)
     print("Start")
@@ -35,6 +37,17 @@ if __name__ == "__main__":
     aspi = Aspi(random.randint(0,4), random.randint(0,4), 1000)
     print(aspi.get_x())
     print(aspi.get_y())
+
+    noeud = [
+            Noeud(None, 2, 3,"1", 1, grille.get_arr()[aspi.get_x()][aspi.get_y()]),
+            Noeud(None, 0, 1,"2", 1, grille.get_arr()[aspi.get_x()][aspi.get_y()]),
+            Noeud(None, 2, 0,"3", 1, grille.get_arr()[aspi.get_x()][aspi.get_y()]),
+            Noeud(None, 0, 0,"4", 1, grille.get_arr()[aspi.get_x()][aspi.get_y()]),
+    ]
+
+    noeud.sort(key=lambda x: x.get_cost()+x.get_distance())
+    for test in noeud:
+        print(test.get_action())
 
 #     aspi = Aspi(grille.randomPlace(), grille.randomPlace(), 1000)
    
