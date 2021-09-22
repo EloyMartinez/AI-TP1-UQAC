@@ -117,4 +117,4 @@ while True:
     #     boole = True
         boole = True
 
-    time.sleep(5)
+    time.sleep(20)

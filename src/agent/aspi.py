@@ -51,15 +51,11 @@ class Aspi:
    
     #Fonction qui va permettre à l'aspirateur de connaitre la grille
     def useSensor(self,grid):
-        #C'est un tableau
         self._bdi.set_belief(grid.clone())
-       # print(grid.clone())
-       # print("Use sensor " + str(self._bdi.get_belief()))
-
-
-    ## ATTENTION ICI, L'OBJET VA PRENDRE UNE VALEUR CAR ON LUI AFFECTE UNE VALEUR DE ARRAY
+       
+    #Fonction qui va permettre de trouver la case sale la plus proche de nous
     def findBoxGoal(self):
-        closest = []  #this is supposed to be a case
+        closest = []  #This is an object : supposed to be a case
         for x in range(0, 5):
             for y in range(0, 5):
                 #Pour chaque Case de la grille que connait l'aspi
@@ -80,11 +76,10 @@ class Aspi:
         print("La case la plus proche X : " +str(closest.get_x()) + " // y : " + str(closest.get_y()))
         return closest
     
-    #Calculer la norme entre 2 cases : la case actuelle et la case que l'on veut comparer
+    #Fonction pour calculer la norme entre 2 cases : la case actuelle et la case que l'on veut comparer
     def norme(self,potentialGoal):
         return (abs(potentialGoal.get_x() - self.get_x()) + abs(potentialGoal.get_y() - self.get_y()))
             
-    
     def distance(self,closestBox,currentCase):
         if closestBox == []:
             return True
@@ -95,6 +90,7 @@ class Aspi:
                 return False
    
 
+    #Fonction qui va affecter a l'aspi une liste d'action
     def setIntent(self):
         action = 'forceStart'  ## This action will allow us to check further actions
         actionList = []
@@ -109,7 +105,7 @@ class Aspi:
 
         while(action != 'origin'):
             action = node.get_action()
-            print("Action : " + str(action))
+           # print("Action : " + str(action))
             node = node.get_parent()
             actionList.append(action)
         self.get_bdi().set_intent(actionList)
@@ -118,15 +114,13 @@ class Aspi:
     def aStar(self,grid):
         #On trouve la case que l'on veut
         goal = self.findBoxGoal()
-
         #On instancie un noeud sans parent, avec la norme avec la goal case, comme action origin, profondeur de 0 et la case courante
         startNode = Noeud(None,0,self.norme(goal),str('origin'),0,grid[self.get_x()][self.get_y()]) 
         if(goal==None):
             return startNode
-        #Creation d'un objet vide
-
         print("Goal find : En x " + str(goal.get_x()) + " - EN y " + str(goal.get_y()))
         print("grid :" + str(grid))
+        #Creation d'un objet vide
         nodelist = []
         nodelist.append(startNode)
         while(not self.isGrabOrSuck(nodelist[0])):
@@ -139,7 +133,8 @@ class Aspi:
             self.sort(nodelist)# a implementer
         return nodelist[0]
             
-    #Point a mettre en global
+    #Point a mettre en global 
+    #Voir ou utiliser cette fonction
     def mesurePerformance(self,action,node):
         point = 0
         if(action=='grab'):
@@ -153,6 +148,7 @@ class Aspi:
         else:
             point = point - 1 #pour tout autre mouvement
             
+    #Calculer le cout 
     def calculateCost(self,node):
         action = 'forceStart' 
         cost = 0
@@ -162,13 +158,14 @@ class Aspi:
             node = node.get_parent()
         return cost
         
-    
+
     def isGrabOrSuck(self,node):
         if(self.get_points() < (self.get_points() + self.calculateCost(node))):
             return True
         else:
             return False
 
+    #Fonction pour trier les noeuds en fonction de leur cout et distance
     def sort(self, list_noeud):
         list_noeud.sort(key=lambda x: int(x.get_cost())+int(x.get_distance()))
     
