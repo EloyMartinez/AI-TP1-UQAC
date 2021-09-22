@@ -115,7 +115,7 @@ class Aspi:
         #On trouve la case que l'on veut
         goal = self.findBoxGoal()
         #On instancie un noeud sans parent, avec la norme avec la goal case, comme action origin, profondeur de 0 et la case courante
-        startNode = Noeud(None,0,self.norme(goal),str('origin'),0,grid[self.get_x()][self.get_y()]) 
+        startNode = Noeud(None,0,self.norme(goal),'origin',0,grid[self.get_x()][self.get_y()]) 
         if(goal==None):
             return startNode
         print("Goal find : En x " + str(goal.get_x()) + " - EN y " + str(goal.get_y()))
@@ -130,13 +130,13 @@ class Aspi:
             nodelist = nodelist+node.expand(self.get_bdi().get_belief(),self)  ## we want to add list of extended nodes into list of nodes  //array concatination
             #for a in nodelist:
                 #print(a.get_parent())
-            self.sort(nodelist)# a implementer
+            self.sort(nodelist)
         return nodelist[0]
             
     #Point a mettre en global 
     #Voir ou utiliser cette fonction
     def mesurePerformance(self,action,node):
-        point = 0
+        point = self.get_points()
         if(action=='grab'):
             point = point + 10
         if(action == 'suck'):
@@ -147,6 +147,7 @@ class Aspi:
             point = point - 1 #L'energie depense
         else:
             point = point - 1 #pour tout autre mouvement
+        self.set_points(point)
             
     #Calculer le cout 
     def calculateCost(self,node):
