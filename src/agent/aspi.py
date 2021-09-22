@@ -60,7 +60,7 @@ class Aspi:
             for y in range(0, 5):
                 #Pour chaque Case de la grille que connait l'aspi
                 currentCase = self.get_bdi().get_belief()[x][y]
-                print("x : " + str(x) + " - y: " + str(y) + "//  currentCase :" +str(currentCase))
+               # print("x : " + str(x) + " - y: " + str(y) + "//  currentCase :" +str(currentCase))
                 #Check pour voir la saleté
                 if(currentCase.get_dirt()):
                     #Si sale alors on clacule la distance avec la case courante avec distance()
@@ -94,7 +94,7 @@ class Aspi:
     def setIntent(self):
         action = 'forceStart'  ## This action will allow us to check further actions
         actionList = []
-        print("get belief " + str(self.get_bdi().get_belief())) 
+       # print("get belief " + str(self.get_bdi().get_belief())) 
         print()
         print("*******************************************************************************************************************************")
         print()
@@ -119,7 +119,7 @@ class Aspi:
         if(goal==None):
             return startNode
         print("Goal find : En x " + str(goal.get_x()) + " - EN y " + str(goal.get_y()))
-        print("grid :" + str(grid))
+        #print("grid :" + str(grid))
         #Creation d'un objet vide
         nodelist = []
         nodelist.append(startNode)
@@ -128,8 +128,8 @@ class Aspi:
             node = nodelist[0]
             del nodelist[0]
             nodelist = nodelist+node.expand(self.get_bdi().get_belief(),self)  ## we want to add list of extended nodes into list of nodes  //array concatination
-            for a in nodelist:
-                print(a.get_parent())
+            #for a in nodelist:
+                #print(a.get_parent())
             self.sort(nodelist)# a implementer
         return nodelist[0]
             
