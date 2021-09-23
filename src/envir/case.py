@@ -13,10 +13,15 @@ class Case:
         self._x = x
         self._y = y
         self._grid = grid
+        self._coords = str(x)+","+str(y)
 
 
 
     # Getters/Setters
+    
+    def get_coords(self):
+        return self._coords
+    
     def get_jewel(self):
         return self._jewel
 
@@ -69,6 +74,11 @@ class Case:
                 logging.info("Salete ajoute en "+str(self.get_x())+","+str(self.get_y()))
         else:
             self._dirt = False
+     
+     #force add dirt to enable easy testing       
+    def forceDirt(self):                    
+        self.set_dirt(True)
+
         
     
     def clone(self):

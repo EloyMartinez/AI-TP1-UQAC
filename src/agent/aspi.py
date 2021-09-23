@@ -146,7 +146,7 @@ class Aspi:
                 point = point - 30
             point = point - 1 #L'energie depense
         else:
-            point = point - 1 #pour tout autre mouvement
+            point = point - 1 #pour tout autre mouvement   ##si on bouge pas on depense pas d'energie
         self.set_points(point)
             
     #Calculer le cout 

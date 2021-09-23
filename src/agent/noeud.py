@@ -33,10 +33,10 @@ class Noeud:
         self._action = action
         
     def get_depth(self):        
-        return self._action
+        return self._depth
     
     def set_depth(self, depth): 
-        self._action = depth
+        self._depth = depth
         
     def get_currentCase(self):        
         return self._currentCase
@@ -116,6 +116,54 @@ class Noeud:
         elif(action == "up"):
             if(currentActionCase.get_y() < 0):
                 currentActionCase= (grid)[self.get_currentCase().get_x()][self.get_currentCase().get_y()+1].clone()
+                print("UP -> X : " + str(currentActionCase.get_x()) + " Y : " + str(currentActionCase.get_y()))
+
+        return currentActionCase
+    
+     #Fonction expand
+    def expandBFS(self,grid,visited):
+        succesors = []
+        visited = visited
+        actions = self.possibleActions()
+        for a in actions:
+            currentCase=self.actionCaseBFS(a,grid)
+            if currentCase.get_coords() not in visited:
+                if(self.get_parent() == None):
+                    # startNode = Noeud(None,0,self.norme(goal),str('origin'),0,grid[self.get_x()][self.get_y()]) 
+                    tmp = Noeud(self,0,0,a,1,currentCase)
+                else:
+                    print(self.get_depth())
+                    tmp = Noeud(self,0,0,a,self.get_depth()+1,currentCase)
+                succesors.append(tmp)        
+        return succesors
+    
+    def actionCaseBFS(self,action,grid):
+        #On clone a chaque fois donc ca bug
+        currentActionCase = grid[self.get_currentCase().get_x()][self.get_currentCase().get_y()]
+        if(action == "grab"):
+            print("GRAB")
+            currentActionCase.set_jewel(False)
+        elif(action == "suck"):
+            print("SUCK")
+            currentActionCase.set_jewel(False)
+            currentActionCase.set_dirt(False)
+        elif(action == "right"):
+            if(currentActionCase.get_x() < 4):
+                currentActionCase = (grid)[self.get_currentCase().get_x()+1][self.get_currentCase().get_y()]
+                print("RIGHT -> X : " + str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
+        elif(action == "left"):
+            if(currentActionCase.get_x() > 0):
+                currentActionCase= (grid)[self.get_currentCase().get_x()-1][self.get_currentCase().get_y()]
+                print("LEFT -> X : " +str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
+
+        elif(action == "down"):
+            if(currentActionCase.get_y() < 4):
+                currentActionCase= (grid)[self.get_currentCase().get_x()][self.get_currentCase().get_y()+1]
+                print("DOWN -> X : " +str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
+
+        elif(action == "up"):
+            if(currentActionCase.get_y() > 0):
+                currentActionCase= (grid)[self.get_currentCase().get_x()][self.get_currentCase().get_y()-1]
                 print("UP -> X : " + str(currentActionCase.get_x()) + " Y : " + str(currentActionCase.get_y()))
 
         return currentActionCase
