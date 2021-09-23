@@ -11,7 +11,7 @@ def bfsSearch(grid):
         return bfsRecursive(grid.get_arr(),queue,visited,startNode)
     
 def bfsRecursive(arr,queue,visited,node):
-        queue =    queue +node.expandBFS(arr,visited) ### ceci peut bugger si liste vide
+        queue =    queue + node.expandBFS(arr,visited) ### node.expandBFS(arr,visited) + queue pour faire depth search
         print(node.get_currentCase().get_coords())
         currentNode = queue[0]
         del queue[0]
