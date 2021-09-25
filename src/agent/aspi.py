@@ -108,6 +108,26 @@ class Aspi:
             node = node.get_parent()
             actionList.append(action)
         self.get_bdi().set_intent(actionList)
+        
+    #Fonction qui va affecter a l'aspi une liste d'action
+    def setIntentBFS(self):
+        action = 'forceStart'  ## This action will allow us to check further actions
+        actionList = []
+       # print("get belief " + str(self.get_bdi().get_belief())) 
+        print()
+        print("*******************************************************************************************************************************")
+        print()
+       # print(self.get_bdi().get_belief())
+        node = self.bfsSearch(self.get_bdi().get_belief())
+        print("Current Case x : " + str(node.get_currentCase().get_x()))
+        print("Current Case y : " + str(node.get_currentCase().get_y()))
+
+        while(action != 'origin'):
+            action = node.get_action()
+           # print("Action : " + str(action))
+            node = node.get_parent()
+            actionList.append(action)
+        self.get_bdi().set_intent(actionList)
     
     #Algo de recherche informé
     def aStar(self,grid):
@@ -145,7 +165,7 @@ class Aspi:
                 point = point - 30
             point = point - 1 #L'energie depense
         else:
-            point = point - 1 #pour tout autre mouvement
+            point = point - 1 #pour tout autre mouvement   ##si on bouge pas on depense pas d'energie
         self.set_points(point)
             
     #Calculer le cout 
@@ -168,6 +188,23 @@ class Aspi:
     #Fonction pour trier les noeuds en fonction de leur cout et distance
     def sort(self, list_noeud):
         list_noeud.sort(key=lambda x: int(x.get_cost())+int(x.get_distance()))
+        
+    def bfsSearch(self,arr):
+        queue = []
+        visited = []
+        startNode = Noeud(None,0,0,'origin',0,arr[self.get_x()][self.get_y()]) 
+        return self.bfsRecursive(arr,queue,visited,startNode)
+    
+    def bfsRecursive(self,arr,queue,visited,node):   
+            queue =    queue + node.expandBFS(arr,visited) ### node.expandBFS(arr,visited) + queue pour faire depth search
+            print(node.get_currentCase().get_coords())
+            currentNode = queue[0]
+            del queue[0]
+            if currentNode.get_currentCase().get_dirt() == True or currentNode.get_currentCase().get_jewel() == True:
+                return currentNode
+            else:
+                visited.append(currentNode.get_currentCase().get_coords())
+                return self.bfsRecursive(arr,queue,visited,currentNode)
     
 
      
