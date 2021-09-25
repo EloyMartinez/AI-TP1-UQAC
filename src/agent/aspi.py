@@ -1,4 +1,3 @@
-from agent import effecteurs
 from agent.effecteurs import Effecteurs
 from agent.bdi import Bdi
 from agent.noeud import Noeud

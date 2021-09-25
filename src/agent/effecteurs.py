@@ -1,5 +1,4 @@
 import sys
-import sys
 sys.path.append('../')
 from envir.case import Case
 
