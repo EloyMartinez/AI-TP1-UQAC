@@ -90,7 +90,6 @@ class Noeud:
 
     #Fonction qui va simuler les actions 
     def actionCase(self,action,grid):
-        #On clone a chaque fois donc ca bug
         currentActionCase = (grid)[self.get_currentCase().get_x()][self.get_currentCase().get_y()]
         if(action == "grab"):
             print("GRAB")

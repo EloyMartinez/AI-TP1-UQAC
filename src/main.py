@@ -4,24 +4,22 @@ from agent.aspi import Aspi
 from agent.noeud import Noeud
 from agent.sensor import sensor
 from agent.effecteurs import Effecteurs
-import pygame
 import time
 import random
 import threading as thrd
+from threading import Thread
+
 
 mutex = thrd.Lock()
 
 def gestion_grille(grille):
     while True:
         grille.generate_environment()
-        mutex.acquire()
-        try:
-            grille.main()
-        finally:
-            mutex.release()
+        grille.main()
+        #grille.main()
         time.sleep(3)
 
-def gestion_aspi(aspi):
+def gestion_aspi(aspi, grille):
     while True:
         mutex.acquire()
         try:
@@ -30,6 +28,8 @@ def gestion_aspi(aspi):
             mutex.release()
         aspi.setIntent()
         time.sleep(2)
+    
+
 
 
 if __name__ == "__main__":
@@ -94,13 +94,17 @@ if __name__ == "__main__":
 
     sensor = sensor(True)
 
+    
+    ### THREAD NE MARCHE PAS
+  
+
+    t1 = thrd.Thread(target = gestion_grille, args=(grille,))
+    t2 = thrd.Thread(target = gestion_aspi, args=(aspi,grille,))
+    t1.start()
+    t2.start()
 
 
-    thread_grille = thrd.Thread(target=gestion_grille(grille))
-    thread_aspi = thrd.Thread(target=gestion_aspi(aspi))
 
-    thread_grille.start()
-    thread_aspi.start()
 
 
 #   aspi.get_effecteurs().move(aspi,"up")
@@ -125,35 +129,36 @@ if __name__ == "__main__":
 #     case.generate_salete()
 
 
+'''
+    boole = False
 
-"""
-boole = False
-while True:
-    grille.generate_environment()
-    grille.main()
-    aspi.useSensor(grille)
-    aspi.setIntent()
+    while True:
+        grille.generate_environment()
+        grille.main()
+        aspi.useSensor(grille)
+        aspi.setIntent()
 
-    if(boole==False):
+        if(boole==False):
 
-        ### CLONE GRILLE 
-        # array_clone = sensor.capture(grille)
-        # print(array_clone[aspi.get_x()][aspi.get_y()].get_jewel())
-        # print(array_clone[aspi.get_x()][aspi.get_y()].get_dirt())
-        # print(grille.get_arr()[aspi.get_x()][aspi.get_y()].get_jewel())
-        # print(grille.get_arr()[aspi.get_x()][aspi.get_y()].get_dirt())
+            ### CLONE GRILLE 
+            # array_clone = sensor.capture(grille)
+            # print(array_clone[aspi.get_x()][aspi.get_y()].get_jewel())
+            # print(array_clone[aspi.get_x()][aspi.get_y()].get_dirt())
+            # print(grille.get_arr()[aspi.get_x()][aspi.get_y()].get_jewel())
+            # print(grille.get_arr()[aspi.get_x()][aspi.get_y()].get_dirt())
 
-        ### CLONE DE LA CASE
-    #     print(grille.get_arr()[aspi.get_x()][aspi.get_y()-1].get_dirt())
-    #     print(grille.get_arr()[aspi.get_x()][aspi.get_y()-1].get_jewel())
+            ### CLONE DE LA CASE
+        #     print(grille.get_arr()[aspi.get_x()][aspi.get_y()-1].get_dirt())
+        #     print(grille.get_arr()[aspi.get_x()][aspi.get_y()-1].get_jewel())
 
-    #     print(noeud.actionCase("down",grille).get_jewel())
-        
-    #     boole = True
-        boole = True
+        #     print(noeud.actionCase("down",grille).get_jewel())
+            
+        #     boole = True
+            boole = True
 
-    time.sleep(10)
-"""
+        time.sleep(10)
+'''
+   
 
 
 
