@@ -1,6 +1,8 @@
-from agent.effecteurs import Effecteurs
+
 from agent.bdi import Bdi
 from agent.noeud import Noeud
+from agent.sensor import sensor
+from agent.effecteurs import Effecteurs
 
 class Aspi:
 
@@ -10,6 +12,7 @@ class Aspi:
         self._ressources= ressources
         self._effecteurs= Effecteurs()
         self._bdi = Bdi()
+        self._sensor = sensor(True)
         self._points = 0
     
     def get_x(self):        
@@ -50,7 +53,8 @@ class Aspi:
    
     #Fonction qui va permettre à l'aspirateur de connaitre la grille
     def useSensor(self,grid):
-        self._bdi.set_belief(grid.clone())
+        newgrid = self._sensor.capture(grid)
+        self._bdi.set_belief(newgrid)
        
     #Fonction qui va permettre de trouver la case sale la plus proche de nous
     def findBoxGoal(self):
@@ -98,16 +102,20 @@ class Aspi:
         print("*******************************************************************************************************************************")
         print()
        # print(self.get_bdi().get_belief())
+
         node = self.aStar(self.get_bdi().get_belief())
+
         print("Current Case x : " + str(node.get_currentCase().get_x()))
         print("Current Case y : " + str(node.get_currentCase().get_y()))
-
+        action = node.get_action()
+      #  print("Action : " + str(action))            
         while(action != 'origin'):
-            action = node.get_action()
-           # print("Action : " + str(action))
-            node = node.get_parent()
+            print("Action : " + str(action))  
             actionList.append(action)
+            action = node.get_parent().get_action()     
+            print(action)       
         self.get_bdi().set_intent(actionList)
+        print("Voici les actions a réaliser : " + str(actionList))
         
     #Fonction qui va affecter a l'aspi une liste d'action
     def setIntentBFS(self):
@@ -133,11 +141,15 @@ class Aspi:
     def aStar(self,grid):
         #On trouve la case que l'on veut
         goal = self.findBoxGoal()
+        print("\n\n\n******************************\nLE GOAL EST : " + str(goal) + "\n\n")
         #On instancie un noeud sans parent, avec la norme avec la goal case, comme action origin, profondeur de 0 et la case courante
-        startNode = Noeud(None,0,self.norme(goal),'origin',0,grid[self.get_x()][self.get_y()]) 
         if(goal==None):
-            return startNode
-        print("Goal find : En x " + str(goal.get_x()) + " - EN y " + str(goal.get_y()))
+            print("goal is current case")
+            return Noeud(None,0,0,'origin',0,grid[self.get_x()][self.get_y()]); 
+        else:
+            startNode = Noeud(None,0,self.norme(goal),'origin',0,grid[self.get_x()][self.get_y()]) 
+            print("Goal find : En x " + str(goal.get_x()) + " - EN y " + str(goal.get_y()))
+        
         #print("grid :" + str(grid))
         #Creation d'un objet vide
         nodelist = []
@@ -150,6 +162,7 @@ class Aspi:
             #for a in nodelist:
                 #print(a.get_parent())
             self.sort(nodelist)
+        print("On va aller sur ici : " + str(nodelist[0].get_currentCase().get_coords()))
         return nodelist[0]
             
     #Point a mettre en global 
