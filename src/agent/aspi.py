@@ -158,9 +158,9 @@ class Aspi:
             print("Dans le while isGrabOrSuck")
             node = nodelist[0]
             del nodelist[0]
-            nodelist = nodelist+node.expand(self.get_bdi().get_belief(),self)  ## we want to add list of extended nodes into list of nodes  //array concatination
-            #for a in nodelist:
-                #print(a.get_parent())
+            print("Expand : " + str(node.expand(self.get_bdi().get_belief(),self,goal)))
+            nodelist = nodelist+node.expand(self.get_bdi().get_belief(),self,goal)  ## we want to add list of extended nodes into list of nodes  //array concatination
+
             self.sort(nodelist)
         print("On va aller sur ici : " + str(nodelist[0].get_currentCase().get_coords()))
         return nodelist[0]

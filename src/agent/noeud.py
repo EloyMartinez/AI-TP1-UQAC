@@ -45,7 +45,8 @@ class Noeud:
         self._action = currentCase
         
     #Fonction expand
-    def expand(self,grid,aspi):
+    '''
+     def expand(self,grid,aspi):
         succesors = []
         actions = self.possibleActions()
         goalCase = aspi.findBoxGoal()  #we get the goalCase once bc the agent doesnt move till the end of the sim
@@ -65,6 +66,8 @@ class Noeud:
             return succesors
         else:
             return None ### we have to check if return is none
+    '''
+   
              
     #Fonction qui calcule la norme entre la case courante et la case goal
     def norme(self,currentcase,goal):
@@ -135,6 +138,24 @@ class Noeud:
                     tmp = Noeud(self,0,0,a,self.get_depth()+1,currentCase)
                 succesors.append(tmp)        
         return succesors
+
+
+      #Fonction expand
+    def expand(self,grid,aspi, goalCase):
+        succesors = []
+        actions = self.possibleActions()
+        #goalCase = aspi.findBoxGoal()  #we get the goalCase once bc the agent doesnt move till the end of the sim
+        if(goalCase!=None):
+            for a in actions:
+                currentCase=self.actionCase(a,grid)
+                if(self.get_parent() == None):
+                    tmp = Noeud(self,1,self.norme(currentCase,goalCase),a,1,currentCase)
+                    succesors.append(tmp)
+                else:
+                    succesors.append(Noeud(self,self.get_parent().get_cost() + 1,self.norme(currentCase,goalCase),a,self.get_depth()+1,currentCase))
+            return succesors
+        else:
+            return None ### we have to check if return is none
     
     def actionCaseBFS(self,action,grid):
         #On clone a chaque fois donc ca bug

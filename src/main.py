@@ -10,6 +10,8 @@ import threading as thrd
 from threading import Thread
 
 
+## GESTION DES THREADS
+
 mutex = thrd.Lock()
 
 def gestion_grille(grille):
@@ -31,6 +33,9 @@ def gestion_aspi(aspi, grille):
     
 
 
+
+
+### MAIN
 
 if __name__ == "__main__":
 
@@ -97,11 +102,13 @@ if __name__ == "__main__":
     
     ### THREAD NE MARCHE PAS
   
-
+    '''
     t1 = thrd.Thread(target = gestion_grille, args=(grille,))
     t2 = thrd.Thread(target = gestion_aspi, args=(aspi,grille,))
     t1.start()
     t2.start()
+    '''
+
 
 
 
@@ -129,7 +136,7 @@ if __name__ == "__main__":
 #     case.generate_salete()
 
 
-'''
+
     boole = False
 
     while True:
@@ -157,7 +164,7 @@ if __name__ == "__main__":
             boole = True
 
         time.sleep(10)
-'''
+
    
 
 
