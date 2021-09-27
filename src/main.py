@@ -7,9 +7,32 @@ from agent.effecteurs import Effecteurs
 import pygame
 import time
 import random
+import threading as thrd
+
+mutex = thrd.Lock()
+
+def gestion_grille(grille):
+    while True:
+        grille.generate_environment()
+        mutex.acquire()
+        try:
+            grille.main()
+        finally:
+            mutex.release()
+        time.sleep(3)
+
+def gestion_aspi(aspi):
+    while True:
+        mutex.acquire()
+        try:
+            aspi.useSensor(grille)
+        finally:
+            mutex.release()
+        aspi.setIntent()
+        time.sleep(2)
+
 
 if __name__ == "__main__":
-
 
 
     '''
@@ -72,6 +95,14 @@ if __name__ == "__main__":
     sensor = sensor(True)
 
 
+
+    thread_grille = thrd.Thread(target=gestion_grille(grille))
+    thread_aspi = thrd.Thread(target=gestion_aspi(aspi))
+
+    thread_grille.start()
+    thread_aspi.start()
+
+
 #   aspi.get_effecteurs().move(aspi,"up")
 #    print(aspi.get_x())
 #    print(aspi.get_y())
@@ -92,6 +123,10 @@ if __name__ == "__main__":
 #     case = Case(grille.randomPlace(), grille.randomPlace(),False,False)
 #     case.generate_bijoux()
 #     case.generate_salete()
+
+
+
+"""
 boole = False
 while True:
     grille.generate_environment()
@@ -117,4 +152,9 @@ while True:
     #     boole = True
         boole = True
 
-    time.sleep(50)
+    time.sleep(10)
+"""
+
+
+
+
