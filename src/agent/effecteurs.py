@@ -15,7 +15,6 @@ class Effecteurs:
     def move(self, aspi, direction):
         posX = aspi.get_x()
         posY = aspi.get_y()
-        hasMoved = False
         if direction == "up":
             if(posY>0):
                 aspi.set_y(posY-1)

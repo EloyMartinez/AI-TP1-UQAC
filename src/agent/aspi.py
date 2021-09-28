@@ -152,19 +152,32 @@ class Aspi:
         nodelist.append(startNode)
         print(startNode)
         print(nodelist)
-        while(not self.isGrabOrSuck(nodelist[0])):
+        #
+        #GRAB N'EST PAS PRIORITAIRE A REGLER
+        #
+        while(not self.isSuck(nodelist[0])):
+            
             print("Dans le while isGrabOrSuck")
             print(nodelist[0])
             node = nodelist[0]
+
+            if self.isGrab(nodelist[0]):
+                if(node.get_parent() == None):
+                    node = Noeud(node,1,0,'grab',node.get_depth()+1, node.get_currentCase())
+                else:
+                    node = Noeud(node,node.get_parent().get_cost()+1,0,'grab',node.get_depth()+1, node.get_currentCase())
+            print(node.get_distance())
             del nodelist[0]
             #print("Expand : " + str(node.expand(self.get_bdi().get_belief(),self,goal)))
             nodelist = nodelist+node.expand(self.get_bdi().get_belief(),self,goal)  ## we want to add list of extended nodes into list of nodes  //array concatination
 
             self.sort(nodelist)
+            
+          
         ## ERREUR ICI, NE TROUVE PAS TJRS LE BON CHEMIN
         print("On va aller sur ici : " + str(nodelist[0].get_currentCase().get_coords()))
         return nodelist[0]
-            
+        
     #Point a mettre en global 
     #Voir ou utiliser cette fonction
     def mesurePerformance(self,action,node):
@@ -202,6 +215,22 @@ class Aspi:
         #     return True
         # else:s
         #     return False
+
+    ##A voir
+    def isSuck(self,node):
+        if(node.get_action()=='suck'):
+            return True
+        else:
+            return False
+
+    ##A voir
+    def isGrab(self,node):
+        if(node.get_currentCase().get_jewel()==1):
+            return True
+        else:
+            return False
+       
+       
 
     #Fonction pour trier les noeuds en fonction de leur cout et distance
     def sort(self, list_noeud):

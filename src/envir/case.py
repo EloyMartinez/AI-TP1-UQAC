@@ -75,10 +75,13 @@ class Case:
         else:
             self._dirt = False
      
-     #force add dirt to enable easy testing       
+    #force add dirt to enable easy testing       
     def forceDirt(self):                    
         self.set_dirt(True)
 
+    #force add jewel to enable easy testing       
+    def forceJewel(self):                    
+        self.set_jewel(True)
         
     
     def clone(self):

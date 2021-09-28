@@ -1,3 +1,4 @@
+import threading
 from envir.grid import Grid
 from envir.case import Case
 from agent.aspi import Aspi
@@ -18,8 +19,7 @@ def gestion_grille(grille):
     while True:
         grille.generate_environment()
         grille.main()
-        #grille.main()
-        time.sleep(3)
+        time.sleep(20)
 
 def gestion_aspi(aspi, grille):
     while True:
@@ -29,6 +29,8 @@ def gestion_aspi(aspi, grille):
         finally:
             mutex.release()
         aspi.setIntent()
+        aspi.update_pos(grille)
+
         time.sleep(2)
     
 
@@ -102,13 +104,18 @@ if __name__ == "__main__":
     
     ### THREAD NE MARCHE PAS
   
-    '''
-    t1 = thrd.Thread(target = gestion_grille, args=(grille,))
+    
+    #t1 = thrd.Thread(target = gestion_grille, args=(grille,))
+    #t1.setDaemon(True)
     t2 = thrd.Thread(target = gestion_aspi, args=(aspi,grille,))
-    t1.start()
+    #t1.start()
     t2.start()
-    '''
+    
 
+    while True:
+        grille.generate_environment()
+        grille.main()
+        time.sleep(10)
 
 
 
@@ -136,8 +143,8 @@ if __name__ == "__main__":
 #     case.generate_salete()
 
 
-
-    boole = False
+'''
+ boole = False
 
     while True:
         grille.generate_environment()
@@ -165,6 +172,8 @@ if __name__ == "__main__":
             boole = True
 
         time.sleep(20)
+'''
+   
 
    
 

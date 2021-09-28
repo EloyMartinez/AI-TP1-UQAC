@@ -116,7 +116,7 @@ class Noeud:
                 print("DOWN -> X : " +str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
 
         elif(action == "up"):
-            if(currentActionCase.get_y() < 0):
+            if(currentActionCase.get_y() > 0):
                 currentActionCase= (grid)[self.get_currentCase().get_x()][self.get_currentCase().get_y()-1]
                 print("UP -> X : " + str(currentActionCase.get_x()) + " Y : " + str(currentActionCase.get_y()))
 
@@ -149,10 +149,17 @@ class Noeud:
             for a in actions:
                 currentCase=self.actionCase(a,grid)
                 if(self.get_parent() == None):
+                    print("Current case : " + str(currentCase.get_coords))
+                    print("Goal Cases : " + str(goalCase.get_coords))
+                    print("Action : " + str(a))
                     tmp = Noeud(self,1,self.norme(currentCase,goalCase),a,1,currentCase)
                     succesors.append(tmp)
                 else:
-                    succesors.append(Noeud(self,self.get_parent().get_cost() + 1,self.norme(currentCase,goalCase),a,self.get_depth()+1,currentCase))
+                    if(a == 'suck'):
+                        print("CAS OU ACTION EST SUCK : ")
+                        succesors.append(Noeud(self,self.get_parent().get_cost() + 1,0,a,self.get_depth()+1,currentCase))
+                    else:
+                        succesors.append(Noeud(self,self.get_parent().get_cost() + 1,self.norme(currentCase,goalCase),a,self.get_depth()+1,currentCase))
             return succesors
         else:
             return None ### we have to check if return is none

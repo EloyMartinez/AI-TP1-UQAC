@@ -5,8 +5,11 @@
             "name": "Python : Fichier actuel",
             "type": "python",
             "request": "launch",
+            "cwd" : "${workspaceFolder}/${relativeFileDirname}",
             "program": "${file}",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "env": { "PYTHONPATH": "${workspaceRoot}"},
+
         },
     
     ]
