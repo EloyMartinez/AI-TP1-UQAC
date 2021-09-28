@@ -75,8 +75,8 @@ class Aspi:
         if(closest == []):
             return None  ### !!!!! WE HAVE TO CHECK IF RESULT IS NOT NONE
         #On retourne la case
-        print("La case la plus proche " + str(closest))
-        print("La case la plus proche X : " +str(closest.get_x()) + " // y : " + str(closest.get_y()))
+     #   print("La case la plus proche " + str(closest))
+      #  print("La case la plus proche X : " +str(closest.get_x()) + " // y : " + str(closest.get_y()))
         return closest
     
     #Fonction pour calculer la norme entre 2 cases : la case actuelle et la case que l'on veut comparer
@@ -97,24 +97,20 @@ class Aspi:
     def setIntent(self):
         action = 'forceStart'  ## This action will allow us to check further actions
         actionList = []
-       # print("get belief " + str(self.get_bdi().get_belief())) 
-        print()
-        print("*******************************************************************************************************************************")
-        print()
-       # print(self.get_bdi().get_belief())
-
         node = self.aStar(self.get_bdi().get_belief())
 
         print("Current Case x : " + str(node.get_currentCase().get_x()))
         print("Current Case y : " + str(node.get_currentCase().get_y()))
         action = node.get_action()
-      #  print("Action : " + str(action))            
+        print("Action debut: " + str(action))            
         while(action != 'origin'):
-            print("Action : " + str(action))  
+           # print("Action : " + str(action))  
             actionList.append(action)
-            action = node.get_parent().get_action()     
-            print(action)       
+            print(node.get_parent().get_action())
+            action = node.get_parent().get_action()  
+           # print(action)       
         self.get_bdi().set_intent(actionList)
+        print( self.get_bdi().get_intent())
         print("Voici les actions a réaliser : " + str(actionList))
         
     #Fonction qui va affecter a l'aspi une liste d'action
@@ -150,18 +146,19 @@ class Aspi:
             startNode = Noeud(None,0,self.norme(goal),'origin',0,grid[self.get_x()][self.get_y()]) 
             print("Goal find : En x " + str(goal.get_x()) + " - EN y " + str(goal.get_y()))
         
-        #print("grid :" + str(grid))
-        #Creation d'un objet vide
+
         nodelist = []
         nodelist.append(startNode)
+
         while(not self.isGrabOrSuck(nodelist[0])):
             print("Dans le while isGrabOrSuck")
             node = nodelist[0]
             del nodelist[0]
-            print("Expand : " + str(node.expand(self.get_bdi().get_belief(),self,goal)))
+            #print("Expand : " + str(node.expand(self.get_bdi().get_belief(),self,goal)))
             nodelist = nodelist+node.expand(self.get_bdi().get_belief(),self,goal)  ## we want to add list of extended nodes into list of nodes  //array concatination
 
             self.sort(nodelist)
+        ## ERREUR ICI, NE TROUVE PAS TJRS LE BON CHEMIN
         print("On va aller sur ici : " + str(nodelist[0].get_currentCase().get_coords()))
         return nodelist[0]
             
@@ -218,7 +215,21 @@ class Aspi:
             else:
                 visited.append(currentNode.get_currentCase().get_coords())
                 return self.bfsRecursive(arr,queue,visited,currentNode)
-    
+            
+    def update_pos(self, grid):
+        action = self.get_bdi().get_intent()
+        for a in action:
+            if(a != "grab" or a != "suck"):
+                posx = self.get_x()
+                posy = self.get_y()
+                self.get_effecteurs().move(self,a)
+                grid.update_vaccum((posx*100)+40, (posy*100)+40, self.get_x(),self.get_y())
+            elif(a == "suck"):
+                self.get_effecteurs().clean_case(grid.get_arr()[self.get_x()][self.get_y])
+                grid.update_dirt((self.get_y*100)+40, (self.get_x()*100)+40)
+            elif(a == "grab"):
+                self.get_effecteurs().grab_jewel(grid.get_arr()[self.get_x()][self.get_y])
+                grid.update_jewel((self.get_y*100)+40, (self.get_x()*100)+40)
 
      
         

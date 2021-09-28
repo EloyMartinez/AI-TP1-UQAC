@@ -144,6 +144,7 @@ if __name__ == "__main__":
         grille.main()
         aspi.useSensor(grille)
         aspi.setIntent()
+        aspi.update_pos(grille)
 
         if(boole==False):
 
@@ -163,7 +164,7 @@ if __name__ == "__main__":
         #     boole = True
             boole = True
 
-        time.sleep(10)
+        time.sleep(1)
 
    
 

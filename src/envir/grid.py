@@ -84,6 +84,7 @@ class Grid:
         dirt = pygame.image.load('envir/img/dirt.png')
         pic_dirt = pygame.transform.scale(dirt, (40, 40))
         self._screen.blit(pic_dirt, (x,y))
+        
 
 
     def display_jewel(self,x,y):
@@ -97,6 +98,19 @@ class Grid:
         vaccum= pygame.image.load('envir/img/vaccum.png')
         pic_vaccum = pygame.transform.scale(vaccum, (50, 50))
         self._screen.blit(pic_vaccum, ((x*100)+40,(y*100)+40))
+
+
+    def update_vaccum(self, x_vaccum, y_vaccum, newx, newy):
+        pygame.draw.rect(self._screen,white_color, (x_vaccum, y_vaccum, 50,50))
+        vaccum= pygame.image.load('envir/img/vaccum.png')
+        pic_vaccum = pygame.transform.scale(vaccum, (50, 50))
+        self._screen.blit(pic_vaccum, ((newx*100)+40,(newy*100)+40))
+
+    def update_dirt(self, x_vaccum, y_vaccum):
+        pygame.draw.rect(self._screen,white_color, (x_vaccum, y_vaccum, 40,40))
+    
+    def update_jewel(self, x_vaccum, y_vaccum):
+        pygame.draw.rect(self._screen,white_color, (x_vaccum+50, y_vaccum-9, 50,50))
 
     #Boucle pour l'affichage de la grille
     def main(self):

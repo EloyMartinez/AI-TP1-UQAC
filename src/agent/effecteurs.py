@@ -18,18 +18,18 @@ class Effecteurs:
         hasMoved = False
         if direction == "up":
             if(posY>0):
-                aspi.set_y(posY+1)
+                aspi.set_y(posY-1)
 
         elif direction == "down":
-            if(posY>3):
-                aspi.set_y(posY-1)
+            if(posY>4):
+                aspi.set_y(posY+1)
 
         elif direction == "left":
             if(posX>0):
                 aspi.set_x(posX-1)
                 
         elif direction == "right":
-            if(posX<3):
+            if(posX<4):
                 aspi.set_x(posX+1)
 
 
