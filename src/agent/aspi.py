@@ -106,8 +106,10 @@ class Aspi:
         while(action != 'origin'):
            # print("Action : " + str(action))  
             actionList.append(action)
-            print(node.get_parent().get_action())
-            action = node.get_parent().get_action()  
+            node = node.get_parent()
+            action = node.get_action()
+            print(action)
+           # action = node.get_parent().get_action()
            # print(action)       
         self.get_bdi().set_intent(actionList)
         print( self.get_bdi().get_intent())
@@ -146,12 +148,13 @@ class Aspi:
             startNode = Noeud(None,0,self.norme(goal),'origin',0,grid[self.get_x()][self.get_y()]) 
             print("Goal find : En x " + str(goal.get_x()) + " - EN y " + str(goal.get_y()))
         
-
         nodelist = []
         nodelist.append(startNode)
-
+        print(startNode)
+        print(nodelist)
         while(not self.isGrabOrSuck(nodelist[0])):
             print("Dans le while isGrabOrSuck")
+            print(nodelist[0])
             node = nodelist[0]
             del nodelist[0]
             #print("Expand : " + str(node.expand(self.get_bdi().get_belief(),self,goal)))
@@ -189,11 +192,16 @@ class Aspi:
         return cost
         
 
+    ##A voir
     def isGrabOrSuck(self,node):
-        if(self.get_points() < (self.get_points() + self.calculateCost(node))):
+        if(node.get_action()=='grab' or node.get_action()=='suck'):
             return True
         else:
             return False
+        # if(self.get_points() < (self.get_points() + self.calculateCost(node))):
+        #     return True
+        # else:s
+        #     return False
 
     #Fonction pour trier les noeuds en fonction de leur cout et distance
     def sort(self, list_noeud):
@@ -218,18 +226,22 @@ class Aspi:
             
     def update_pos(self, grid):
         action = self.get_bdi().get_intent()
+        action.reverse()
         for a in action:
-            if(a != "grab" or a != "suck"):
+            if(a == "suck"):
+                print("Clean case : " + str(self.get_x()) + " - " + str(self.get_y()))
+                self.get_effecteurs().clean_case(grid.get_arr()[self.get_x()][self.get_y()])
+                grid.update_dirt((self.get_y()*100), (self.get_x()*100))
+            elif(a == "grab"):
+                print("Grab case : " + str(self.get_x()) + " - " + str(self.get_y()))
+                self.get_effecteurs().grab_jewel(grid.get_arr()[self.get_x()][self.get_y()])
+                grid.update_jewel(self.get_y()*100, (self.get_x()*100))
+            else:
+                print("GRAB OR SUCK")
                 posx = self.get_x()
                 posy = self.get_y()
                 self.get_effecteurs().move(self,a)
                 grid.update_vaccum((posx*100)+40, (posy*100)+40, self.get_x(),self.get_y())
-            elif(a == "suck"):
-                self.get_effecteurs().clean_case(grid.get_arr()[self.get_x()][self.get_y])
-                grid.update_dirt((self.get_y*100)+40, (self.get_x()*100)+40)
-            elif(a == "grab"):
-                self.get_effecteurs().grab_jewel(grid.get_arr()[self.get_x()][self.get_y])
-                grid.update_jewel((self.get_y*100)+40, (self.get_x()*100)+40)
 
      
         

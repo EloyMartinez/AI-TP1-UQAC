@@ -107,10 +107,10 @@ class Grid:
         self._screen.blit(pic_vaccum, ((newx*100)+40,(newy*100)+40))
 
     def update_dirt(self, x_vaccum, y_vaccum):
-        pygame.draw.rect(self._screen,white_color, (x_vaccum, y_vaccum, 40,40))
+        pygame.draw.rect(self._screen,white_color, (x_vaccum+2, y_vaccum+2, 40,40))
     
     def update_jewel(self, x_vaccum, y_vaccum):
-        pygame.draw.rect(self._screen,white_color, (x_vaccum+50, y_vaccum-9, 50,50))
+        pygame.draw.rect(self._screen,black_color, (x_vaccum+50, y_vaccum-9, 50,50))
 
     #Boucle pour l'affichage de la grille
     def main(self):

@@ -21,7 +21,7 @@ class Effecteurs:
                 aspi.set_y(posY-1)
 
         elif direction == "down":
-            if(posY>4):
+            if(posY<4):
                 aspi.set_y(posY+1)
 
         elif direction == "left":
