@@ -90,7 +90,7 @@ class Grid:
 
 
     def display_jewel(self,x,y):
-        print("add_Jewel : " + str(x) + "  " +str(y))
+        print("add_jewel : " + str(x) + "  " +str(y))
         jewel = pygame.image.load('envir/img/jewel.png')
         pic_jewel = pygame.transform.scale(jewel, (50, 50))
         self._screen.blit(pic_jewel, (x+50,y-9))
@@ -112,7 +112,7 @@ class Grid:
         pygame.draw.rect(self._screen,white_color, (x_vaccum+2, y_vaccum+2, 40,40))
     
     def update_jewel(self, x_vaccum, y_vaccum):
-        pygame.draw.rect(self._screen,white_color, (x_vaccum+49, y_vaccum+2, 40,35))
+        pygame.draw.rect(self._screen,white_color, (x_vaccum+49, y_vaccum+2, 49,37))
 
     #Boucle pour l'affichage de la grille
     def main(self):

@@ -95,30 +95,30 @@ class Noeud:
     def actionCase(self,action,grid):
         currentActionCase = (grid)[self.get_currentCase().get_x()][self.get_currentCase().get_y()]
         if(action == "grab"):
-            print("GRAB")
+           # print("GRAB")
             currentActionCase.set_jewel(False)
         elif(action == "suck"):
-            print("SUCK")
+           # print("SUCK")
             currentActionCase.set_jewel(False)
             currentActionCase.set_dirt(False)
         elif(action == "right"):
             if(currentActionCase.get_x() < 4):
                 currentActionCase = (grid)[self.get_currentCase().get_x()+1][self.get_currentCase().get_y()]
-                print("RIGHT -> X : " + str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
+               # print("RIGHT -> X : " + str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
         elif(action == "left"):
             if(currentActionCase.get_x() > 0):
                 currentActionCase= (grid)[self.get_currentCase().get_x()-1][self.get_currentCase().get_y()]
-                print("LEFT -> X : " +str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
+               # print("LEFT -> X : " +str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
 
         elif(action == "down"):
             if(currentActionCase.get_y() < 4):
                 currentActionCase= (grid)[self.get_currentCase().get_x()][self.get_currentCase().get_y()+1]
-                print("DOWN -> X : " +str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
+               # print("DOWN -> X : " +str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
 
         elif(action == "up"):
             if(currentActionCase.get_y() > 0):
                 currentActionCase= (grid)[self.get_currentCase().get_x()][self.get_currentCase().get_y()-1]
-                print("UP -> X : " + str(currentActionCase.get_x()) + " Y : " + str(currentActionCase.get_y()))
+               # print("UP -> X : " + str(currentActionCase.get_x()) + " Y : " + str(currentActionCase.get_y()))
 
         return currentActionCase
     
@@ -134,7 +134,7 @@ class Noeud:
                     # startNode = Noeud(None,0,self.norme(goal),str('origin'),0,grid[self.get_x()][self.get_y()]) 
                     tmp = Noeud(self,0,0,a,1,currentCase)
                 else:
-                    print(self.get_depth())
+                    #print(self.get_depth())
                     tmp = Noeud(self,0,0,a,self.get_depth()+1,currentCase)
                 succesors.append(tmp)        
         return succesors
@@ -149,14 +149,14 @@ class Noeud:
             for a in actions:
                 currentCase=self.actionCase(a,grid)
                 if(self.get_parent() == None):
-                    print("Current case : " + str(currentCase.get_coords))
-                    print("Goal Cases : " + str(goalCase.get_coords))
-                    print("Action : " + str(a))
+                    # print("Current case : " + str(currentCase.get_coords))
+                    # print("Goal Cases : " + str(goalCase.get_coords))
+                    # print("Action : " + str(a))
                     tmp = Noeud(self,1,self.norme(currentCase,goalCase),a,1,currentCase)
                     succesors.append(tmp)
                 else:
                     if(a == 'suck'):
-                        print("CAS OU ACTION EST SUCK : ")
+                       # print("CAS OU ACTION EST SUCK : ")
                         succesors.append(Noeud(self,self.get_parent().get_cost() + 1,0,a,self.get_depth()+1,currentCase))
                     else:
                         succesors.append(Noeud(self,self.get_parent().get_cost() + 1,self.norme(currentCase,goalCase),a,self.get_depth()+1,currentCase))

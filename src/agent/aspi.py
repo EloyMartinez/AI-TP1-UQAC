@@ -100,34 +100,34 @@ class Aspi:
         actionList = []
         node = self.aStar(self.get_bdi().get_belief())
 
-        print("Current Case x : " + str(node.get_currentCase().get_x()))
-        print("Current Case y : " + str(node.get_currentCase().get_y()))
+        # print("Current Case x : " + str(node.get_currentCase().get_x()))
+        # print("Current Case y : " + str(node.get_currentCase().get_y()))
         action = node.get_action()
-        print("Action debut: " + str(action))            
+        # print("Action debut: " + str(action))            
         while(action != 'origin'):
            # print("Action : " + str(action))  
             actionList.append(action)
             node = node.get_parent()
             action = node.get_action()
-            print(action)
+           # print(action)
            # action = node.get_parent().get_action()
            # print(action)       
         self.get_bdi().set_intent(actionList)
-        print( self.get_bdi().get_intent())
-        print("Voici les actions a réaliser : " + str(actionList))
+        # print( self.get_bdi().get_intent())
+        # print("Voici les actions a réaliser : " + str(actionList))
         
     #Fonction qui va affecter a l'aspi une liste d'action
     def setIntentBFS(self):
         action = 'forceStart'  ## This action will allow us to check further actions
         actionList = []
        # print("get belief " + str(self.get_bdi().get_belief())) 
-        print()
-        print("*******************************************************************************************************************************")
-        print()
+        # print()
+        # print("*******************************************************************************************************************************")
+        # print()
        # print(self.get_bdi().get_belief())
         node = self.bfsSearch(self.get_bdi().get_belief())
-        print("Current Case x : " + str(node.get_currentCase().get_x()))
-        print("Current Case y : " + str(node.get_currentCase().get_y()))
+        # print("Current Case x : " + str(node.get_currentCase().get_x()))
+        # print("Current Case y : " + str(node.get_currentCase().get_y()))
 
         while(action != 'origin'):
             action = node.get_action()
@@ -140,34 +140,35 @@ class Aspi:
     def aStar(self,grid):
         #On trouve la case que l'on veut
         goal = self.findBoxGoal()
-        print("\n\n\n******************************\nLE GOAL EST : " + str(goal) + "\n\n")
+        #print("\n\n\n******************************\nLE GOAL EST : " + str(goal) + "\n\n")
         #On instancie un noeud sans parent, avec la norme avec la goal case, comme action origin, profondeur de 0 et la case courante
         if(goal==None):
-            print("goal is current case")
+            #print("goal is current case")
             return Noeud(None,0,0,'origin',0,grid[self.get_x()][self.get_y()]); 
         else:
             startNode = Noeud(None,0,self.norme(goal),'origin',0,grid[self.get_x()][self.get_y()]) 
-            print("Goal find : En x " + str(goal.get_x()) + " - EN y " + str(goal.get_y()))
+           # print("Goal find : En x " + str(goal.get_x()) + " - EN y " + str(goal.get_y()))
         
         nodelist = []
         nodelist.append(startNode)
-        print(startNode)
-        print(nodelist)
-        #
+        # print(startNode)
+        # print(nodelist)
+        # #
         #GRAB N'EST PAS PRIORITAIRE A REGLER
         #
         while(not self.isSuck(nodelist[0])):
             
-            print("Dans le while isGrabOrSuck")
-            print(nodelist[0])
+            # print("Dans le while isGrabOrSuck")
+            # print(nodelist[0])
             node = nodelist[0]
 
             if self.isGrab(nodelist[0]):
+                #print("IS GRAB")
                 if(node.get_parent() == None):
                     node = Noeud(node,1,0,'grab',node.get_depth()+1, node.get_currentCase())
                 else:
                     node = Noeud(node,node.get_parent().get_cost()+1,0,'grab',node.get_depth()+1, node.get_currentCase())
-            print(node.get_distance())
+           # print(node.get_distance())
             del nodelist[0]
             #print("Expand : " + str(node.expand(self.get_bdi().get_belief(),self,goal)))
             nodelist = nodelist+node.expand(self.get_bdi().get_belief(),self,goal)  ## we want to add list of extended nodes into list of nodes  //array concatination
@@ -176,7 +177,7 @@ class Aspi:
             
           
         ## ERREUR ICI, NE TROUVE PAS TJRS LE BON CHEMIN
-        print("On va aller sur ici : " + str(nodelist[0].get_currentCase().get_coords()))
+       # print("On va aller sur ici : " + str(nodelist[0].get_currentCase().get_coords()))
         return nodelist[0]
         
     #Point a mettre en global 
@@ -237,42 +238,63 @@ class Aspi:
     def sort(self, list_noeud):
         list_noeud.sort(key=lambda x: int(x.get_cost())+int(x.get_distance()))
         
-    def bfsSearch(self,arr):
+    def bfsSearch(self,grid):
         queue = []
         visited = []
-        startNode = Noeud(None,0,0,'origin',0,arr[self.get_x()][self.get_y()]) 
-        return self.bfsRecursive(arr,queue,visited,startNode)
+        startNode = Noeud(None,0,0,'origin',0,grid[0][0]) 
+        result =  self.bfsRecursive(grid,queue,visited,startNode)
+        if result == None:
+            return startNode
+        else:
+            return result
     
-    def bfsRecursive(self,arr,queue,visited,node):   
-            queue =    queue + node.expandBFS(arr,visited) ### node.expandBFS(arr,visited) + queue pour faire depth search
-            print(node.get_currentCase().get_coords())
-            currentNode = queue[0]
-            del queue[0]
-            if currentNode.get_currentCase().get_dirt() == True or currentNode.get_currentCase().get_jewel() == True:
-                return currentNode
+    def bfsRecursive(self,arr,queue,visited,node):
+        queue =    queue + node.expandBFS(arr,visited) ### node.expandBFS(arr,visited) + queue pour faire depth search
+        print(node.get_currentCase().get_coords())
+        currentNode = queue[0]
+        del queue[0]
+        if queue == []:
+            return None
+        if(currentNode.get_depth() > 20):
+            return None
+        if currentNode.get_currentCase().get_jewel() == True:
+            if(currentNode.get_parent() == None):
+                    currentNode = Noeud(currentNode,1,0,'grab',currentNode.get_depth()+1, currentNode.get_currentCase())
             else:
-                visited.append(currentNode.get_currentCase().get_coords())
-                return self.bfsRecursive(arr,queue,visited,currentNode)
+                    currentNode = Noeud(currentNode,currentNode.get_parent().get_cost()+1,0,'grab',currentNode.get_depth()+1, currentNode.get_currentCase())
+        if currentNode.get_currentCase().get_dirt() == True:
+            if(currentNode.get_parent() == None):
+                    currentNode = Noeud(currentNode,1,0,'suck',currentNode.get_depth()+1, currentNode.get_currentCase())
+            else:
+                    currentNode = Noeud(currentNode,currentNode.get_parent().get_cost()+1,0,'suck',currentNode.get_depth()+1, currentNode.get_currentCase())
+            return currentNode
+        else:
+            visited.append(currentNode.get_currentCase().get_coords())
+            return self.bfsRecursive(arr,queue,visited,currentNode)
             
     def update_pos(self, grid):
         action = self.get_bdi().get_intent()
         action.reverse()
+      #  print("\n\n\  ")
         for a in action:
+          #  print("\n" + a + "\n")
             if(a == "suck"):
-                print("Clean case : " + str(self.get_x()) + " - " + str(self.get_y()))
+              #  print("Clean case : " + str(self.get_x()) + " - " + str(self.get_y()))
                 self.get_effecteurs().clean_case(grid.get_arr()[self.get_x()][self.get_y()])
                 grid.update_dirt((self.get_x()*100), (self.get_y()*100))
+                grid.update_jewel(self.get_x()*100, (self.get_y()*100))
             elif(a == "grab"):
-                print("Grab case : " + str(self.get_x()) + " - " + str(self.get_y()))
+              #  print("Grab case : " + str(self.get_x()) + " - " + str(self.get_y()))
                 self.get_effecteurs().grab_jewel(grid.get_arr()[self.get_x()][self.get_y()])
                 grid.update_jewel(self.get_x()*100, (self.get_y()*100))
             else:
-                print("GRAB OR SUCK")
+              #  print("GRAB OR SUCK")
                 posx = self.get_x()
                 posy = self.get_y()
                 self.get_effecteurs().move(self,a)
                 grid.update_vaccum((posx*100)+40, (posy*100)+40, self.get_x(),self.get_y())
             grid.main()
+            
             time.sleep(0.5)
 
 

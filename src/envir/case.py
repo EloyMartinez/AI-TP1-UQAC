@@ -57,7 +57,7 @@ class Case:
     # Methodes
     def generate_jewel(self):
         prob = random.random()
-        if(prob<0.1):
+        if(prob<1):
             if (not self.get_jewel()):
                 self.set_jewel(True)
                 self.get_grid().add_jewel(self.get_x(),self.get_y())
@@ -67,7 +67,7 @@ class Case:
     
     def generate_dirt(self):
         prob = random.random()
-        if(prob<0.1):
+        if(prob<0.3):
             if (not self.get_dirt()):
                 self.set_dirt(True)
                 self.get_grid().add_dirt(self.get_x(),self.get_y())

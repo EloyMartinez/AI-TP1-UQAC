@@ -15,11 +15,13 @@ from threading import Thread
 
 mutex = thrd.Lock()
 
+'''
 def gestion_grille(grille):
+    grille.generate_environment()
     while True:
-        grille.generate_environment()
         grille.main()
         time.sleep(10)
+'''
 
 def gestion_aspi(aspi, grille):
     while True:
@@ -31,7 +33,6 @@ def gestion_aspi(aspi, grille):
         aspi.setIntent()
         aspi.get_bdi().get_intent()
         aspi.update_pos(grille)
-
         time.sleep(1)
         
 
@@ -44,9 +45,9 @@ if __name__ == "__main__":
 
     grille = Grid()
     aspi = Aspi(random.randint(0,4), random.randint(0,4), 1000)
-    print("Les coordonnées de l'aspi : ")
-    print("en x : " + str(aspi.get_x()))
-    print("en y : " + str(aspi.get_y()))
+    # print("Les coordonnées de l'aspi : ")
+    # print("en x : " + str(aspi.get_x()))
+    # print("en y : " + str(aspi.get_y()))
 
 
     #aspi = Aspi(grille.randomPlace(), grille.randomPlace(), 1000)
@@ -69,6 +70,10 @@ if __name__ == "__main__":
     sensor = sensor(True)
 
     
+    grille.generate_environment()
+
+
+
     ### THREAD NE MARCHE PAS
   
     
@@ -77,13 +82,31 @@ if __name__ == "__main__":
     t2 = thrd.Thread(target = gestion_aspi, args=(aspi,grille,))
     #t1.start()
     t2.start()
-    
 
-    while True:
-        grille.generate_environment()
-        grille.main()
-        time.sleep(10)
+    # print("BELIEF :")
+    # for x in range(0, 5):
+    #     for y in range(0, 5):
+    #        # print(aspi.get_bdi().get_belief()[x][y].get_coords())
+    #         print("DIRT :" + str(aspi.get_bdi().get_belief()[x][y].get_dirt()))
+    #         print("JEWEL :" + str(aspi.get_bdi().get_belief()[x][y].get_jewel()))
 
+  #  while True:
+    grille.main()
+    print("BELIEF :")
+    for x in range(0, 5):
+        for y in range(0, 5):
+            print(str(x) + " : " +str(y) )
+            print("DIRT BELIEF:" + str(aspi.get_bdi().get_belief()[x][y].get_dirt()) + "   JEWEL BELIEF:" + str(aspi.get_bdi().get_belief()[x][y].get_jewel()))
+            print("DIRT REEL:" + str(grille.get_arr()[x][y].get_dirt()) + "   JEWEL REEL:" + str(grille.get_arr()[x][y].get_jewel()))
+
+
+    time.sleep(30)
+    print("BELIEF :")
+    for x in range(0, 5):
+        for y in range(0, 5):
+            print(str(x) + " : " +str(y) )
+            print("DIRT BELIEF:" + str(aspi.get_bdi().get_belief()[x][y].get_dirt()) + "   JEWEL BELIEF:" + str(aspi.get_bdi().get_belief()[x][y].get_jewel()))
+            print("DIRT REEL:" + str(grille.get_arr()[x][y].get_dirt()) + "   JEWEL REEL:" + str(grille.get_arr()[x][y].get_jewel()))
 
 
 
