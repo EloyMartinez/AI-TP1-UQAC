@@ -241,7 +241,7 @@ class Aspi:
     def bfsSearch(self,grid):
         queue = []
         visited = []
-        startNode = Noeud(None,0,0,'origin',0,grid[0][0]) 
+        startNode = Noeud(None,0,0,'origin',0,grid[self.get_x()][self.get_y()]) 
         result =  self.bfsRecursive(grid,queue,visited,startNode)
         if result == None:
             return startNode
@@ -279,12 +279,12 @@ class Aspi:
         for a in action:
           #  print("\n" + a + "\n")
             if(a == "suck"):
-              #  print("Clean case : " + str(self.get_x()) + " - " + str(self.get_y()))
+               # print("Clean case : " + str(self.get_x()) + " - " + str(self.get_y()))
                 self.get_effecteurs().clean_case(grid.get_arr()[self.get_x()][self.get_y()])
                 grid.update_dirt((self.get_x()*100), (self.get_y()*100))
                 grid.update_jewel(self.get_x()*100, (self.get_y()*100))
             elif(a == "grab"):
-              #  print("Grab case : " + str(self.get_x()) + " - " + str(self.get_y()))
+               # print("Grab case : " + str(self.get_x()) + " - " + str(self.get_y()))
                 self.get_effecteurs().grab_jewel(grid.get_arr()[self.get_x()][self.get_y()])
                 grid.update_jewel(self.get_x()*100, (self.get_y()*100))
             else:
@@ -294,8 +294,13 @@ class Aspi:
                 self.get_effecteurs().move(self,a)
                 grid.update_vaccum((posx*100)+40, (posy*100)+40, self.get_x(),self.get_y())
             grid.main()
-            
-            time.sleep(0.5)
+            # for x in range(0, 5):
+            #     for y in range(0, 5):
+            #         print(str(x) + " : " +str(y) )
+            #         print("DIRT BELIEF:" + str(grid.get_arr()[x][y].get_dirt()) + "   JEWEL BELIEF:" + str(grid.get_arr()[x][y].get_jewel()))
+            #         print("DIRT REEL:" + str(grid.get_arr()[x][y].get_dirt()) + "   JEWEL REEL:" + str(grid.get_arr()[x][y].get_jewel()))
+
+            time.sleep(0.8)
 
 
 

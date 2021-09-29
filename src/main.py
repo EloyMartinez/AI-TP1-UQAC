@@ -30,7 +30,7 @@ def gestion_aspi(aspi, grille):
             aspi.useSensor(grille)
         finally:
             mutex.release()
-        aspi.setIntent()
+        aspi.setIntentBFS()
         aspi.get_bdi().get_intent()
         aspi.update_pos(grille)
         time.sleep(1)
@@ -92,21 +92,21 @@ if __name__ == "__main__":
 
   #  while True:
     grille.main()
-    print("BELIEF :")
-    for x in range(0, 5):
-        for y in range(0, 5):
-            print(str(x) + " : " +str(y) )
-            print("DIRT BELIEF:" + str(aspi.get_bdi().get_belief()[x][y].get_dirt()) + "   JEWEL BELIEF:" + str(aspi.get_bdi().get_belief()[x][y].get_jewel()))
-            print("DIRT REEL:" + str(grille.get_arr()[x][y].get_dirt()) + "   JEWEL REEL:" + str(grille.get_arr()[x][y].get_jewel()))
+    # print("BELIEF :")
+    # for x in range(0, 5):
+    #     for y in range(0, 5):
+    #         print(str(x) + " : " +str(y) )
+    #         print("DIRT BELIEF:" + str(aspi.get_bdi().get_belief()[x][y].get_dirt()) + "   JEWEL BELIEF:" + str(aspi.get_bdi().get_belief()[x][y].get_jewel()))
+    #         print("DIRT REEL:" + str(grille.get_arr()[x][y].get_dirt()) + "   JEWEL REEL:" + str(grille.get_arr()[x][y].get_jewel()))
 
 
     time.sleep(30)
-    print("BELIEF :")
-    for x in range(0, 5):
-        for y in range(0, 5):
-            print(str(x) + " : " +str(y) )
-            print("DIRT BELIEF:" + str(aspi.get_bdi().get_belief()[x][y].get_dirt()) + "   JEWEL BELIEF:" + str(aspi.get_bdi().get_belief()[x][y].get_jewel()))
-            print("DIRT REEL:" + str(grille.get_arr()[x][y].get_dirt()) + "   JEWEL REEL:" + str(grille.get_arr()[x][y].get_jewel()))
+    # print("BELIEF :")
+    # for x in range(0, 5):
+    #     for y in range(0, 5):
+    #         print(str(x) + " : " +str(y) )
+    #         print("DIRT BELIEF:" + str(aspi.get_bdi().get_belief()[x][y].get_dirt()) + "   JEWEL BELIEF:" + str(aspi.get_bdi().get_belief()[x][y].get_jewel()))
+    #         print("DIRT REEL:" + str(grille.get_arr()[x][y].get_dirt()) + "   JEWEL REEL:" + str(grille.get_arr()[x][y].get_jewel()))
 
 
 
