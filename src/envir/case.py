@@ -67,7 +67,7 @@ class Case:
     
     def generate_dirt(self):
         prob = random.random()
-        if(prob<0.3):
+        if(prob<0.6):
             if (not self.get_dirt()):
                 self.set_dirt(True)
                 self.get_grid().add_dirt(self.get_x(),self.get_y())

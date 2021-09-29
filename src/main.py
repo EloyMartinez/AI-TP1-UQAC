@@ -25,6 +25,7 @@ def gestion_grille(grille):
 
 def gestion_aspi(aspi, grille):
     while True:
+        print(grille.get_arr()[aspi.get_x()][aspi.get_y()].get_jewel())
         mutex.acquire()
         try:
             aspi.useSensor(grille)
@@ -44,6 +45,8 @@ def gestion_aspi(aspi, grille):
 if __name__ == "__main__":
 
     grille = Grid()
+   # aspi = Aspi(4, 4, 1000)
+
     aspi = Aspi(random.randint(0,4), random.randint(0,4), 1000)
     # print("Les coordonnées de l'aspi : ")
     # print("en x : " + str(aspi.get_x()))
@@ -90,7 +93,6 @@ if __name__ == "__main__":
     #         print("DIRT :" + str(aspi.get_bdi().get_belief()[x][y].get_dirt()))
     #         print("JEWEL :" + str(aspi.get_bdi().get_belief()[x][y].get_jewel()))
 
-  #  while True:
     grille.main()
     # print("BELIEF :")
     # for x in range(0, 5):

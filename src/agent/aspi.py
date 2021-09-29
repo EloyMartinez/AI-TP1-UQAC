@@ -300,7 +300,7 @@ class Aspi:
             #         print("DIRT BELIEF:" + str(grid.get_arr()[x][y].get_dirt()) + "   JEWEL BELIEF:" + str(grid.get_arr()[x][y].get_jewel()))
             #         print("DIRT REEL:" + str(grid.get_arr()[x][y].get_dirt()) + "   JEWEL REEL:" + str(grid.get_arr()[x][y].get_jewel()))
 
-            time.sleep(0.8)
+            time.sleep(0.3)
 
 
 
