@@ -271,7 +271,9 @@ class Aspi:
                 posy = self.get_y()
                 self.get_effecteurs().move(self,a)
                 grid.update_vaccum((posx*100)+40, (posy*100)+40, self.get_x(),self.get_y())
+            grid.main()
 
+    
      
         
                 

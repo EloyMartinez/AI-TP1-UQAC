@@ -22,16 +22,16 @@ def gestion_grille(grille):
         time.sleep(10)
 
 def gestion_aspi(aspi, grille):
-    while True:
-        mutex.acquire()
-        try:
-            aspi.useSensor(grille)
-        finally:
-            mutex.release()
-        aspi.setIntent()
-        aspi.update_pos(grille)
+    mutex.acquire()
+    try:
+        aspi.useSensor(grille)
+    finally:
+        mutex.release()
+    aspi.setIntent()
+    aspi.get_bdi().get_intent()
+    aspi.update_pos(grille)
 
-        time.sleep(10)
+    time.sleep(3)
     
 
 
@@ -41,46 +41,12 @@ def gestion_aspi(aspi, grille):
 
 if __name__ == "__main__":
 
-
-    '''
-    yo = Aspi(2,3,1000)
-    print("Start")
-    print("X : " + str(yo.get_x()) + "      Y : " +str(yo.get_y()))
-    print("UP (y+1)")
-    yo.get_effecteurs().move(yo,"up")
-    print("X : " + str(yo.get_x()) + "      Y : " +str(yo.get_y()))
-    yo.get_effecteurs().move(yo,"left")
-    print("left (x-1)")
-    print("X : " + str(yo.get_x()) + "      Y : " +str(yo.get_y()))
-    yo.get_effecteurs().move(yo,"down")
-    print("down (y-1)")
-    print("X : " + str(yo.get_x()) + "      Y : " +str(yo.get_y()))
-
-    yo.get_effecteurs().move(yo,"right")
-    print("right (x+1)")
-    print("X : " + str(yo.get_x()) + "      Y : " +str(yo.get_y()))
-
-    yo.get_effecteurs().grab_jewel
-    '''
-   
     grille = Grid()
     aspi = Aspi(random.randint(0,4), random.randint(0,4), 1000)
     print("Les coordonnées de l'aspi : ")
     print("en x : " + str(aspi.get_x()))
     print("en y : " + str(aspi.get_y()))
 
-    ''' TEST DU SORT
-    noeud = [
-            Noeud(None, 2, 3,"1", 1, grille.get_arr()[aspi.get_x()][aspi.get_y()]),
-            Noeud(None, 0, 1,"2", 1, grille.get_arr()[aspi.get_x()][aspi.get_y()]),
-            Noeud(None, 2, 0,"3", 1, grille.get_arr()[aspi.get_x()][aspi.get_y()]),
-            Noeud(None, 0, 0,"4", 1, grille.get_arr()[aspi.get_x()][aspi.get_y()]),
-    ]
-
-    noeud.sort(key=lambda x: x.get_cost()+x.get_distance())
-    for test in noeud:
-        print(test.get_action())
-    '''
 
     #aspi = Aspi(grille.randomPlace(), grille.randomPlace(), 1000)
    
@@ -109,16 +75,13 @@ if __name__ == "__main__":
     #t1.setDaemon(True)
     t2 = thrd.Thread(target = gestion_aspi, args=(aspi,grille,))
     #t1.start()
-    t2.start()
+    while True:
+        t2.start()
     
 
     while True:
         grille.generate_environment()
-        mutex.acquire()
-        try:
-            grille.main()
-        finally:
-            mutex.release()
+        grille.main()
         time.sleep(10)
 
 
