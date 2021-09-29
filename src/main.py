@@ -31,7 +31,7 @@ def gestion_aspi(aspi, grille):
             aspi.useSensor(grille)
         finally:
             mutex.release()
-        aspi.setIntentBFS()
+        aspi.setIntent()
         aspi.get_bdi().get_intent()
         aspi.update_pos(grille)
         time.sleep(1)
@@ -45,9 +45,9 @@ def gestion_aspi(aspi, grille):
 if __name__ == "__main__":
 
     grille = Grid()
-   # aspi = Aspi(4, 4, 1000)
+    aspi = Aspi(4, 4, 1000)
 
-    aspi = Aspi(random.randint(0,4), random.randint(0,4), 1000)
+    #aspi = Aspi(random.randint(0,4), random.randint(0,4), 1000)
     # print("Les coordonnées de l'aspi : ")
     # print("en x : " + str(aspi.get_x()))
     # print("en y : " + str(aspi.get_y()))

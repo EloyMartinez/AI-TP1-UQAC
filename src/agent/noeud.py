@@ -121,7 +121,8 @@ class Noeud:
                # print("UP -> X : " + str(currentActionCase.get_x()) + " Y : " + str(currentActionCase.get_y()))
 
         return currentActionCase
-    
+
+   
      #Fonction expand
     def expandBFS(self,grid,visited):
         succesors = []
@@ -194,6 +195,32 @@ class Noeud:
                 print("UP -> X : " + str(currentActionCase.get_x()) + " Y : " + str(currentActionCase.get_y()))
 
         return currentActionCase
+
+
+ # #UN ACTIONCASE QUI MARCHE SANS REALISER DES CLONES CAR ON NE MODIFIE PAS LETAT INTERNE DES CASES 
+    # def actionCase(self,action,grid):
+    #     currentActionCase = (grid)[self.get_currentCase().get_x()][self.get_currentCase().get_y()]
+    #     if(action == "right"):
+    #         if(currentActionCase.get_x() < 4):
+    #             currentActionCase = (grid)[self.get_currentCase().get_x()+1][self.get_currentCase().get_y()]
+    #            # print("RIGHT -> X : " + str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
+    #     elif(action == "left"):
+    #         if(currentActionCase.get_x() > 0):
+    #             currentActionCase= (grid)[self.get_currentCase().get_x()-1][self.get_currentCase().get_y()]
+    #            # print("LEFT -> X : " +str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
+
+    #     elif(action == "down"):
+    #         if(currentActionCase.get_y() < 4):
+    #             currentActionCase= (grid)[self.get_currentCase().get_x()][self.get_currentCase().get_y()+1]
+    #            # print("DOWN -> X : " +str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
+
+    #     elif(action == "up"):
+    #         if(currentActionCase.get_y() > 0):
+    #             currentActionCase= (grid)[self.get_currentCase().get_x()][self.get_currentCase().get_y()-1]
+    #            # print("UP -> X : " + str(currentActionCase.get_x()) + " Y : " + str(currentActionCase.get_y()))
+
+    #     return currentActionCase
+    
 
 
 	

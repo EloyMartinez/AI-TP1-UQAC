@@ -66,7 +66,7 @@ class Grid:
         for i in range(0,self._cols):
             for j in range(0,self._rows):
                 (self._arr[i][j]).generate_jewel()
-                (self._arr[i][j]).generate_dirt()
+        (self._arr[0][0]).generate_dirt()
 
 
 
