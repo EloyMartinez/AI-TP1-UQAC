@@ -83,7 +83,7 @@ class Grid:
 
     def display_dirt(self,x,y):
         print("add_dirt : " + str(x) + "  " +str(y))
-        dirt = pygame.image.load('src/envir/img/dirt.png')
+        dirt = pygame.image.load('envir/img/dirt.png')
         pic_dirt = pygame.transform.scale(dirt, (40, 40))
         self._screen.blit(pic_dirt, (x,y))
         
@@ -91,20 +91,20 @@ class Grid:
 
     def display_jewel(self,x,y):
         print("add_Jewel : " + str(x) + "  " +str(y))
-        jewel = pygame.image.load('src/envir/img/jewel.png')
+        jewel = pygame.image.load('envir/img/jewel.png')
         pic_jewel = pygame.transform.scale(jewel, (50, 50))
         self._screen.blit(pic_jewel, (x+50,y-9))
 
 
     def add_vaccum(self, x, y):
-        vaccum= pygame.image.load('src/envir/img/vaccum.png')
+        vaccum= pygame.image.load('envir/img/vaccum.png')
         pic_vaccum = pygame.transform.scale(vaccum, (50, 50))
         self._screen.blit(pic_vaccum, ((x*100)+40,(y*100)+40))
 
 
     def update_vaccum(self, x_vaccum, y_vaccum, newx, newy):
         pygame.draw.rect(self._screen,white_color, (x_vaccum, y_vaccum, 50,50))
-        vaccum= pygame.image.load('src/envir/img/vaccum.png')
+        vaccum= pygame.image.load('envir/img/vaccum.png')
         pic_vaccum = pygame.transform.scale(vaccum, (50, 50))
         self._screen.blit(pic_vaccum, ((newx*100)+40,(newy*100)+40))
 

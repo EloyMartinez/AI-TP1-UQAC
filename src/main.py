@@ -19,7 +19,7 @@ def gestion_grille(grille):
     while True:
         grille.generate_environment()
         grille.main()
-        time.sleep(20)
+        time.sleep(10)
 
 def gestion_aspi(aspi, grille):
     while True:
@@ -31,7 +31,7 @@ def gestion_aspi(aspi, grille):
         aspi.setIntent()
         aspi.update_pos(grille)
 
-        time.sleep(2)
+        time.sleep(10)
     
 
 
