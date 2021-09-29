@@ -22,17 +22,18 @@ def gestion_grille(grille):
         time.sleep(10)
 
 def gestion_aspi(aspi, grille):
-    mutex.acquire()
-    try:
-        aspi.useSensor(grille)
-    finally:
-        mutex.release()
-    aspi.setIntent()
-    aspi.get_bdi().get_intent()
-    aspi.update_pos(grille)
+    while True:
+        mutex.acquire()
+        try:
+            aspi.useSensor(grille)
+        finally:
+            mutex.release()
+        aspi.setIntent()
+        aspi.get_bdi().get_intent()
+        aspi.update_pos(grille)
 
-    time.sleep(3)
-    
+        time.sleep(1)
+        
 
 
 
@@ -75,8 +76,7 @@ if __name__ == "__main__":
     #t1.setDaemon(True)
     t2 = thrd.Thread(target = gestion_aspi, args=(aspi,grille,))
     #t1.start()
-    while True:
-        t2.start()
+    t2.start()
     
 
     while True:

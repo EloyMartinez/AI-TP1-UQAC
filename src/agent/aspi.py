@@ -3,6 +3,7 @@ from agent.bdi import Bdi
 from agent.noeud import Noeud
 from agent.sensor import sensor
 from agent.effecteurs import Effecteurs
+import time
 
 class Aspi:
 
@@ -260,11 +261,11 @@ class Aspi:
             if(a == "suck"):
                 print("Clean case : " + str(self.get_x()) + " - " + str(self.get_y()))
                 self.get_effecteurs().clean_case(grid.get_arr()[self.get_x()][self.get_y()])
-                grid.update_dirt((self.get_y()*100), (self.get_x()*100))
+                grid.update_dirt((self.get_x()*100), (self.get_y()*100))
             elif(a == "grab"):
                 print("Grab case : " + str(self.get_x()) + " - " + str(self.get_y()))
                 self.get_effecteurs().grab_jewel(grid.get_arr()[self.get_x()][self.get_y()])
-                grid.update_jewel(self.get_y()*100, (self.get_x()*100))
+                grid.update_jewel(self.get_x()*100, (self.get_y()*100))
             else:
                 print("GRAB OR SUCK")
                 posx = self.get_x()
@@ -272,6 +273,9 @@ class Aspi:
                 self.get_effecteurs().move(self,a)
                 grid.update_vaccum((posx*100)+40, (posy*100)+40, self.get_x(),self.get_y())
             grid.main()
+            time.sleep(0.5)
+
+
 
     
      

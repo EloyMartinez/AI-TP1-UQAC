@@ -112,7 +112,7 @@ class Grid:
         pygame.draw.rect(self._screen,white_color, (x_vaccum+2, y_vaccum+2, 40,40))
     
     def update_jewel(self, x_vaccum, y_vaccum):
-        pygame.draw.rect(self._screen,white_color, (x_vaccum+49, y_vaccum-10, 50,50))
+        pygame.draw.rect(self._screen,white_color, (x_vaccum+49, y_vaccum+2, 40,35))
 
     #Boucle pour l'affichage de la grille
     def main(self):
