@@ -15,6 +15,7 @@ if __name__ == "__main__":
     grid = bfsGrid()
     grid.initialize()
     grid.add_dirt(3,3)
+    grid.add_jewel(3,2)
     nodefin = bfsSearch(grid)
     print(nodefin)
     

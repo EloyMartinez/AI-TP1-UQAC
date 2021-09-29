@@ -20,3 +20,6 @@ class bfsGrid:
     def add_dirt(self,x,y):
         (self._arr[x][y]).forceDirt()
         
+    def add_jewel(self,x,y):
+        (self._arr[x][y].forceJewel())
+        
