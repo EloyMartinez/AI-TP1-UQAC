@@ -114,7 +114,11 @@ if __name__ == "__main__":
 
     while True:
         grille.generate_environment()
-        grille.main()
+        mutex.acquire()
+        try:
+            grille.main()
+        finally:
+            mutex.release()
         time.sleep(10)
 
 
