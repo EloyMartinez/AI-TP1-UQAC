@@ -241,7 +241,7 @@ class Aspi:
     def bfsSearch(self,grid):
         queue = []
         visited = []
-        startNode = Noeud(None,0,0,'origin',0,grid[0][0]) 
+        startNode = Noeud(None,0,0,'origin',0,grid[self.get_x()][self.get_y()]) 
         result =  self.bfsRecursive(grid,queue,visited,startNode)
         if result == None:
             return startNode

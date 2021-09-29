@@ -30,7 +30,7 @@ def gestion_aspi(aspi, grille):
             aspi.useSensor(grille)
         finally:
             mutex.release()
-        aspi.setIntent()
+        aspi.setIntentBFS()
         aspi.get_bdi().get_intent()
         aspi.update_pos(grille)
         time.sleep(1)
