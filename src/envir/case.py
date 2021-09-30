@@ -58,7 +58,7 @@ class Case:
     def generate_jewel(self):
         prob = random.random()
         if (not self.get_jewel()):
-            if(prob<0.1):
+            if(prob<0.04):
                     self.set_jewel(True)
                     self.get_grid().add_jewel(self.get_x(),self.get_y())
                     logging.info("Bijoux ajoute en "+str(self.get_x())+","+str(self.get_y()))
@@ -69,7 +69,7 @@ class Case:
        # print("Dans le generate dirt")
         prob = random.random()
         if (not self.get_dirt()):
-            if(prob<0.3):
+            if(prob<0.07):
                     #print("TRUUUE")
                     self.set_dirt(True)
                     #print("generate : " + str(self.get_dirt()))

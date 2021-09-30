@@ -18,7 +18,7 @@ mutex = thrd.Lock()
 # Fonction qui va gerer l'aspirateur (Appelé dans un thread)
 def gestion_aspi(aspi, grille):
     count = 0
-    intMesure = 1
+    intMesure = 10
     while True:
         mutex.acquire()
         try:
@@ -63,7 +63,7 @@ if __name__ == "__main__":
     cmt = 1
     while True:
         grille.generate_environment()
-        time.sleep(5)
+        time.sleep(1)
         print("\nPERFORMANCE " + str(cmt) + " : "+str(aspi.get_sensor().get_performance()) + "\n")
         cmt = cmt+1
    
