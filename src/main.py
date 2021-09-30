@@ -25,7 +25,7 @@ def gestion_grille(grille):
 
 def gestion_aspi(aspi, grille):
     while True:
-        print(grille.get_arr()[aspi.get_x()][aspi.get_y()].get_jewel())
+        #print(grille.get_arr()[aspi.get_x()][aspi.get_y()].get_jewel())
         mutex.acquire()
         try:
             aspi.useSensor(grille)
@@ -34,10 +34,9 @@ def gestion_aspi(aspi, grille):
         aspi.setIntent()
         aspi.get_bdi().get_intent()
         aspi.update_pos(grille)
-        time.sleep(1)
+        time.sleep(0.5)
+
         
-
-
 
 
 ### MAIN
@@ -45,41 +44,19 @@ def gestion_aspi(aspi, grille):
 if __name__ == "__main__":
 
     grille = Grid()
-    aspi = Aspi(4, 4, 1000)
+  #  aspi = Aspi(4, 4, 1000)
 
-    #aspi = Aspi(random.randint(0,4), random.randint(0,4), 1000)
-    # print("Les coordonnées de l'aspi : ")
-    # print("en x : " + str(aspi.get_x()))
-    # print("en y : " + str(aspi.get_y()))
-
-
-    #aspi = Aspi(grille.randomPlace(), grille.randomPlace(), 1000)
-   
-    #a = grille.clone()
+    aspi = Aspi(random.randint(0,4), random.randint(0,4))
     grille.initialize()
-
-   # grille.display()
-   # a.display()
-
-
-    #noeud = Noeud(None, 0, 0, "",0,grille.get_arr()[aspi.get_x()][aspi.get_y()])
-
-
-   # print(noeud.actionCase("down",grille).get_jewel())
-
-
     grille.add_vaccum(aspi.get_x(), aspi.get_y())
-
-    sensor = sensor(True)
-
-    
     grille.generate_environment()
+
+    #print("Tour 1 case 0,0 : " + str(grille.get_arr()[0][0].get_dirt()))
+    #print("Tour 1 case 0,1 : " + str(grille.get_arr()[0][1].get_dirt()))
 
 
 
     ### THREAD NE MARCHE PAS
-  
-    
     #t1 = thrd.Thread(target = gestion_grille, args=(grille,))
     #t1.setDaemon(True)
     t2 = thrd.Thread(target = gestion_aspi, args=(aspi,grille,))
@@ -94,6 +71,13 @@ if __name__ == "__main__":
     #         print("JEWEL :" + str(aspi.get_bdi().get_belief()[x][y].get_jewel()))
 
     grille.main()
+    while True:
+        grille.generate_environment()
+        time.sleep(5)
+        print("\nPERFORMANCE : " +str(aspi.get_sensor().get_performance()) + "\n")
+    # print("Tour 2 case 0,0 : " + str(grille.get_arr()[0][0].get_dirt()))
+    # print("Tour 2 case 0,1 : " + str(grille.get_arr()[0][1].get_dirt()))
+
     # print("BELIEF :")
     # for x in range(0, 5):
     #     for y in range(0, 5):
@@ -102,7 +86,7 @@ if __name__ == "__main__":
     #         print("DIRT REEL:" + str(grille.get_arr()[x][y].get_dirt()) + "   JEWEL REEL:" + str(grille.get_arr()[x][y].get_jewel()))
 
 
-    time.sleep(30)
+    #time.sleep(30)
     # print("BELIEF :")
     # for x in range(0, 5):
     #     for y in range(0, 5):
@@ -134,38 +118,6 @@ if __name__ == "__main__":
 #     case.generate_bijoux()
 #     case.generate_salete()
 
-
-'''
- boole = False
-
-    while True:
-        grille.generate_environment()
-        grille.main()
-        aspi.useSensor(grille)
-        aspi.setIntent()
-        aspi.update_pos(grille)
-
-        if(boole==False):
-
-            ### CLONE GRILLE 
-            # array_clone = sensor.capture(grille)
-            # print(array_clone[aspi.get_x()][aspi.get_y()].get_jewel())
-            # print(array_clone[aspi.get_x()][aspi.get_y()].get_dirt())
-            # print(grille.get_arr()[aspi.get_x()][aspi.get_y()].get_jewel())
-            # print(grille.get_arr()[aspi.get_x()][aspi.get_y()].get_dirt())
-
-            ### CLONE DE LA CASE
-        #     print(grille.get_arr()[aspi.get_x()][aspi.get_y()-1].get_dirt())
-        #     print(grille.get_arr()[aspi.get_x()][aspi.get_y()-1].get_jewel())
-
-        #     print(noeud.actionCase("down",grille).get_jewel())
-            
-        #     boole = True
-            boole = True
-
-        time.sleep(20)
-'''
-   
 
    
 

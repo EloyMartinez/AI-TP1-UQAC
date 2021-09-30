@@ -66,7 +66,9 @@ class Grid:
         for i in range(0,self._cols):
             for j in range(0,self._rows):
                 (self._arr[i][j]).generate_jewel()
-        (self._arr[0][0]).generate_dirt()
+                (self._arr[i][j]).generate_dirt()
+
+
 
 
 
@@ -82,7 +84,7 @@ class Grid:
 
 
     def display_dirt(self,x,y):
-        print("add_dirt : " + str(x) + "  " +str(y))
+        #print("add_dirt : " + str(x) + "  " +str(y))
         dirt = pygame.image.load('envir/img/dirt.png')
         pic_dirt = pygame.transform.scale(dirt, (40, 40))
         self._screen.blit(pic_dirt, (x,y))
@@ -90,7 +92,7 @@ class Grid:
 
 
     def display_jewel(self,x,y):
-        print("add_jewel : " + str(x) + "  " +str(y))
+        #print("add_jewel : " + str(x) + "  " +str(y))
         jewel = pygame.image.load('envir/img/jewel.png')
         pic_jewel = pygame.transform.scale(jewel, (50, 50))
         self._screen.blit(pic_jewel, (x+50,y-9))
@@ -127,4 +129,3 @@ class Grid:
     def display(self):
         print(self.get_arr())
                
-

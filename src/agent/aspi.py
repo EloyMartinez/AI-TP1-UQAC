@@ -7,14 +7,12 @@ import time
 
 class Aspi:
 
-    def __init__(self, x, y, ressources):
+    def __init__(self, x, y):
         self._x = x
         self._y = y
-        self._ressources= ressources
         self._effecteurs= Effecteurs()
         self._bdi = Bdi()
         self._sensor = sensor(True)
-        self._points = 0
     
     def get_x(self):        
         return self._x
@@ -34,11 +32,11 @@ class Aspi:
     def get_effecteurs(self):
         return self._effecteurs
 
-    def set_ressources(self, effecteurs): 
-        self._effecteurs = effecteurs 
+    def set_sensor(self, sensor): 
+        self._sensor = sensor
 
-    def set_ressources(self, ressources): 
-        self._ressources = ressources 
+    def get_sensor(self): 
+        return self._sensor
         
     def get_bdi(self):
         return self._bdi
@@ -46,16 +44,13 @@ class Aspi:
     def set_bdi(self,bdi):
         self._bdi=bdi
     
-    def set_points(self, points):
-        self._points = points
-    
-    def get_points(self):
-       return self._points
    
     #Fonction qui va permettre à l'aspirateur de connaitre la grille
     def useSensor(self,grid):
         newgrid = self._sensor.capture(grid)
         self._bdi.set_belief(newgrid)
+        print("-1 use sensor")
+        self.get_sensor().set_performance(self.get_sensor().get_performance()-1)
        
     #Fonction qui va permettre de trouver la case sale la plus proche de nous
     def findBoxGoal(self):
@@ -250,7 +245,7 @@ class Aspi:
     
     def bfsRecursive(self,arr,queue,visited,node):
         queue =    queue + node.expandBFS(arr,visited) ### node.expandBFS(arr,visited) + queue pour faire depth search
-        print(node.get_currentCase().get_coords())
+       # print(node.get_currentCase().get_coords())
         currentNode = queue[0]
         del queue[0]
         if queue == []:
@@ -294,13 +289,14 @@ class Aspi:
                 self.get_effecteurs().move(self,a)
                 grid.update_vaccum((posx*100)+40, (posy*100)+40, self.get_x(),self.get_y())
             grid.main()
+            self.get_sensor().mesure_performance(self, a)
             # for x in range(0, 5):
             #     for y in range(0, 5):
             #         print(str(x) + " : " +str(y) )
             #         print("DIRT BELIEF:" + str(grid.get_arr()[x][y].get_dirt()) + "   JEWEL BELIEF:" + str(grid.get_arr()[x][y].get_jewel()))
             #         print("DIRT REEL:" + str(grid.get_arr()[x][y].get_dirt()) + "   JEWEL REEL:" + str(grid.get_arr()[x][y].get_jewel()))
 
-            time.sleep(0.3)
+            time.sleep(0.2)
 
 
 

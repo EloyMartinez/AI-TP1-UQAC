@@ -57,23 +57,26 @@ class Case:
     # Methodes
     def generate_jewel(self):
         prob = random.random()
-        if(prob<1):
-            if (not self.get_jewel()):
-                self.set_jewel(True)
-                self.get_grid().add_jewel(self.get_x(),self.get_y())
-                logging.info("Bijoux ajoute en "+str(self.get_x())+","+str(self.get_y()))
-        else:
-            self._jewel = False
+        if (not self.get_jewel()):
+            if(prob<0.1):
+                    self.set_jewel(True)
+                    self.get_grid().add_jewel(self.get_x(),self.get_y())
+                    logging.info("Bijoux ajoute en "+str(self.get_x())+","+str(self.get_y()))
+            else:
+                self._jewel = False
     
     def generate_dirt(self):
+       # print("Dans le generate dirt")
         prob = random.random()
-        if(prob<0.6):
-            if (not self.get_dirt()):
-                self.set_dirt(True)
-                self.get_grid().add_dirt(self.get_x(),self.get_y())
-                logging.info("Salete ajoute en "+str(self.get_x())+","+str(self.get_y()))
-        else:
-            self._dirt = False
+        if (not self.get_dirt()):
+            if(prob<0.3):
+                    #print("TRUUUE")
+                    self.set_dirt(True)
+                    #print("generate : " + str(self.get_dirt()))
+                    self.get_grid().add_dirt(self.get_x(),self.get_y())
+                    logging.info("Salete ajoute en "+str(self.get_x())+","+str(self.get_y()))
+            else:
+                self._dirt = False
      
     #force add dirt to enable easy testing       
     def forceDirt(self):                    

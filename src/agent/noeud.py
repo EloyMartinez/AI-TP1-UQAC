@@ -76,6 +76,8 @@ class Noeud:
     #Fonction liste les actions possible de la case courante
     def possibleActions(self):
         actions = []
+        #( 'Jewel = ' +str(self._currentCase.get_jewel()) + "  Coord = " + str(self._currentCase.get_coords()))
+        #print( 'Dirt = ' +str(self._currentCase.get_jewel()) + "  Coord = " + str(self._currentCase.get_coords()))
         if self._currentCase.get_jewel() == 1:
             actions.append("grab")
         if self._currentCase.get_dirt() == 1:
@@ -94,14 +96,14 @@ class Noeud:
     #Fonction qui va simuler les actions 
     def actionCase(self,action,grid):
         currentActionCase = (grid)[self.get_currentCase().get_x()][self.get_currentCase().get_y()].clone()
-        if(action == "grab"):
-           # print("GRAB")
-            currentActionCase.set_jewel(False)
-        elif(action == "suck"):
-           # print("SUCK")
-            currentActionCase.set_jewel(False)
-            currentActionCase.set_dirt(False)
-        elif(action == "right"):
+        # if(action == "grab"):
+        #    # print("GRAB")
+        #     currentActionCase.set_jewel(False)
+        # elif(action == "suck"):
+        #    # print("SUCK")
+        #     currentActionCase.set_jewel(False)
+        #     currentActionCase.set_dirt(False)
+        if(action == "right"):
             if(currentActionCase.get_x() < 4):
                 currentActionCase = (grid)[self.get_currentCase().get_x()+1][self.get_currentCase().get_y()].clone()
                # print("RIGHT -> X : " + str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
@@ -169,30 +171,30 @@ class Noeud:
         #On clone a chaque fois donc ca bug
         currentActionCase = grid[self.get_currentCase().get_x()][self.get_currentCase().get_y()].clone()
         if(action == "grab"):
-            print("GRAB")
+           # print("GRAB")
             currentActionCase.set_jewel(False)
         elif(action == "suck"):
-            print("SUCK")
+           # print("SUCK")
             currentActionCase.set_jewel(False)
             currentActionCase.set_dirt(False)
         elif(action == "right"):
             if(currentActionCase.get_x() < 4):
                 currentActionCase = (grid)[self.get_currentCase().get_x()+1][self.get_currentCase().get_y()].clone()
-                print("RIGHT -> X : " + str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
+             #   print("RIGHT -> X : " + str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
         elif(action == "left"):
             if(currentActionCase.get_x() > 0):
                 currentActionCase= (grid)[self.get_currentCase().get_x()-1][self.get_currentCase().get_y()].clone()
-                print("LEFT -> X : " +str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
+             #   print("LEFT -> X : " +str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
 
         elif(action == "down"):
             if(currentActionCase.get_y() < 4):
                 currentActionCase= (grid)[self.get_currentCase().get_x()][self.get_currentCase().get_y()+1].clone()
-                print("DOWN -> X : " +str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
+               # print("DOWN -> X : " +str(currentActionCase.get_x()) + " Y : " +str(currentActionCase.get_y()))
 
         elif(action == "up"):
             if(currentActionCase.get_y() > 0):
                 currentActionCase= (grid)[self.get_currentCase().get_x()][self.get_currentCase().get_y()-1].clone()
-                print("UP -> X : " + str(currentActionCase.get_x()) + " Y : " + str(currentActionCase.get_y()))
+              #  print("UP -> X : " + str(currentActionCase.get_x()) + " Y : " + str(currentActionCase.get_y()))
 
         return currentActionCase
 
