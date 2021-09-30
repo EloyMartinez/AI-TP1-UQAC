@@ -15,28 +15,24 @@ from threading import Thread
 
 mutex = thrd.Lock()
 
-'''
-def gestion_grille(grille):
-    grille.generate_environment()
-    while True:
-        grille.main()
-        time.sleep(10)
-'''
-
+# Fonction qui va gerer l'aspirateur (Appelé dans un thread)
 def gestion_aspi(aspi, grille):
     count = 0
     intMesure = 1
     while True:
-        #print(grille.get_arr()[aspi.get_x()][aspi.get_y()].get_jewel())
         mutex.acquire()
         try:
+            #L'aspi va utiliser ses sensor pour clone la grille: il fait cela tous les count modulo intMesure
             aspi.useSensor(grille,count,intMesure)
             count = count + 1
         finally:
             mutex.release()
-        aspi.setIntentBFS()
-        print("NTMMMMMMMMM : "+  str(aspi.get_bdi().get_intent()))
-        aspi.get_bdi().get_intent()
+        
+        #L'aspi va mettre a jour sa liste d'action a réaliser
+        aspi.setIntentDFS()
+        #aspi.get_bdi().get_intent()
+        
+        #Puis va mettre a jour la position de l'aspi et regler la grille
         aspi.update_pos(aspi.get_bdi().get_belief(), grille)
         time.sleep(1)
 
@@ -48,79 +44,31 @@ def gestion_aspi(aspi, grille):
 if __name__ == "__main__":
 
     grille = Grid()
-  #  aspi = Aspi(4, 4, 1000)
-
     aspi = Aspi(random.randint(0,4), random.randint(0,4))
     grille.initialize()
     grille.add_vaccum(aspi.get_x(), aspi.get_y())
     grille.generate_environment()
 
-    #print("Tour 1 case 0,0 : " + str(grille.get_arr()[0][0].get_dirt()))
-    #print("Tour 1 case 0,1 : " + str(grille.get_arr()[0][1].get_dirt()))
-
-
-
     ### THREAD NE MARCHE PAS
     #t1 = thrd.Thread(target = gestion_grille, args=(grille,))
     #t1.setDaemon(True)
-    t2 = thrd.Thread(target = gestion_aspi, args=(aspi,grille,))
     #t1.start()
+
+    t2 = thrd.Thread(target = gestion_aspi, args=(aspi,grille,))
     t2.start()
 
-    # print("BELIEF :")
-    # for x in range(0, 5):
-    #     for y in range(0, 5):
-    #        # print(aspi.get_bdi().get_belief()[x][y].get_coords())
-    #         print("DIRT :" + str(aspi.get_bdi().get_belief()[x][y].get_dirt()))
-    #         print("JEWEL :" + str(aspi.get_bdi().get_belief()[x][y].get_jewel()))
 
     grille.main()
+
+    #Boucle d'environement
+    cmt = 1
     while True:
         grille.generate_environment()
         time.sleep(5)
-        print("\nPERFORMANCE : " +str(aspi.get_sensor().get_performance()) + "\n")
-    # print("Tour 2 case 0,0 : " + str(grille.get_arr()[0][0].get_dirt()))
-    # print("Tour 2 case 0,1 : " + str(grille.get_arr()[0][1].get_dirt()))
+        print("\nPERFORMANCE " + str(cmt) + " : "+str(aspi.get_sensor().get_performance()) + "\n")
+        cmt = cmt+1
+   
 
-    # print("BELIEF :")
-    # for x in range(0, 5):
-    #     for y in range(0, 5):
-    #         print(str(x) + " : " +str(y) )
-    #         print("DIRT BELIEF:" + str(aspi.get_bdi().get_belief()[x][y].get_dirt()) + "   JEWEL BELIEF:" + str(aspi.get_bdi().get_belief()[x][y].get_jewel()))
-    #         print("DIRT REEL:" + str(grille.get_arr()[x][y].get_dirt()) + "   JEWEL REEL:" + str(grille.get_arr()[x][y].get_jewel()))
-
-
-    #time.sleep(30)
-    # print("BELIEF :")
-    # for x in range(0, 5):
-    #     for y in range(0, 5):
-    #         print(str(x) + " : " +str(y) )
-    #         print("DIRT BELIEF:" + str(aspi.get_bdi().get_belief()[x][y].get_dirt()) + "   JEWEL BELIEF:" + str(aspi.get_bdi().get_belief()[x][y].get_jewel()))
-    #         print("DIRT REEL:" + str(grille.get_arr()[x][y].get_dirt()) + "   JEWEL REEL:" + str(grille.get_arr()[x][y].get_jewel()))
-
-
-
-
-#   aspi.get_effecteurs().move(aspi,"up")
-#    print(aspi.get_x())
-#    print(aspi.get_y())
-
-#     grille.add_dust(arr)
-#     #grille.displayGrid(arr, aspi)
-#     aspi.move_left()
-#     aspi.move_left()
-#    # grille.displayGrid(arr, aspi)
-#     aspi.move_up()
-#     aspi.move_up()
-#    # grille.displayGrid(arr, aspi)
-#     aspi.move_right()
-#     aspi.move_right()
-#     #grille.displayGrid(arr, aspi)
-#     aspi.move_down()
-#     aspi.move_down()
-#     case = Case(grille.randomPlace(), grille.randomPlace(),False,False)
-#     case.generate_bijoux()
-#     case.generate_salete()
 
 
    

@@ -297,11 +297,7 @@ class Aspi:
                 reelGrid.update_vaccum((posx*100)+40, (posy*100)+40, self.get_x(),self.get_y())
             reelGrid.main()
             self.get_sensor().mesure_performance(self, a)
-            # for x in range(0, 5):
-            #     for y in range(0, 5):
-            #         print(str(x) + " : " +str(y) )
-            #         print("DIRT BELIEF:" + str(grid.get_arr()[x][y].get_dirt()) + "   JEWEL BELIEF:" + str(grid.get_arr()[x][y].get_jewel()))
-            #         print("DIRT REEL:" + str(grid.get_arr()[x][y].get_dirt()) + "   JEWEL REEL:" + str(grid.get_arr()[x][y].get_jewel()))
+        
 
             time.sleep(0.2)
 

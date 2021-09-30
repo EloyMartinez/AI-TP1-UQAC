@@ -11,7 +11,6 @@ class sensor:
         self.perfomance = new_performance
         
     def capture(self,grid):
-        print('HELLO SIR YES SIIIIIIRR')
         return grid.clone()
     
     def mesure_performance(self,aspi,action):
