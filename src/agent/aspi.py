@@ -46,11 +46,14 @@ class Aspi:
     
    
     #Fonction qui va permettre à l'aspirateur de connaitre la grille
-    def useSensor(self,grid):
-        newgrid = self._sensor.capture(grid)
-        self._bdi.set_belief(newgrid)
-        print("-1 use sensor")
-        self.get_sensor().set_performance(self.get_sensor().get_performance()-1)
+    def useSensor(self,grid,count,intMesure):
+        print('INSIDE USE SENSOR')
+        if ((count % intMesure) == 0) or count < 3:
+            print('MODULO IS RESPECTED')
+            newgrid = self._sensor.capture(grid)
+            self._bdi.set_belief(newgrid)
+            print("-1 use sensor")
+            self.get_sensor().set_performance(self.get_sensor().get_performance()-1)
        
     #Fonction qui va permettre de trouver la case sale la plus proche de nous
     def findBoxGoal(self):
@@ -94,6 +97,8 @@ class Aspi:
         action = 'forceStart'  ## This action will allow us to check further actions
         actionList = []
         node = self.aStar(self.get_bdi().get_belief())
+        print(str(self.get_bdi().get_belief()[0][0].get_dirt()) + 'LOOOK HERREEE M8888')
+
 
         # print("Current Case x : " + str(node.get_currentCase().get_x()))
         # print("Current Case y : " + str(node.get_currentCase().get_y()))
@@ -267,7 +272,7 @@ class Aspi:
             visited.append(currentNode.get_currentCase().get_coords())
             return self.bfsRecursive(arr,queue,visited,currentNode)
             
-    def update_pos(self, grid):
+    def update_pos(self, grid, reelGrid):
         action = self.get_bdi().get_intent()
         action.reverse()
       #  print("\n\n\  ")
@@ -275,20 +280,22 @@ class Aspi:
           #  print("\n" + a + "\n")
             if(a == "suck"):
                # print("Clean case : " + str(self.get_x()) + " - " + str(self.get_y()))
-                self.get_effecteurs().clean_case(grid.get_arr()[self.get_x()][self.get_y()])
-                grid.update_dirt((self.get_x()*100), (self.get_y()*100))
-                grid.update_jewel(self.get_x()*100, (self.get_y()*100))
+                self.get_effecteurs().clean_case(grid[self.get_x()][self.get_y()])
+                self.get_effecteurs().clean_case(reelGrid.get_arr()[self.get_x()][self.get_y()])
+                reelGrid.update_dirt((self.get_x()*100), (self.get_y()*100))
+                reelGrid.update_jewel(self.get_x()*100, (self.get_y()*100))
             elif(a == "grab"):
                # print("Grab case : " + str(self.get_x()) + " - " + str(self.get_y()))
-                self.get_effecteurs().grab_jewel(grid.get_arr()[self.get_x()][self.get_y()])
-                grid.update_jewel(self.get_x()*100, (self.get_y()*100))
+                self.get_effecteurs().grab_jewel(reelGrid.get_arr()[self.get_x()][self.get_y()])
+                self.get_effecteurs().grab_jewel(grid[self.get_x()][self.get_y()])
+                reelGrid.update_jewel(self.get_x()*100, (self.get_y()*100))
             else:
               #  print("GRAB OR SUCK")
                 posx = self.get_x()
                 posy = self.get_y()
                 self.get_effecteurs().move(self,a)
-                grid.update_vaccum((posx*100)+40, (posy*100)+40, self.get_x(),self.get_y())
-            grid.main()
+                reelGrid.update_vaccum((posx*100)+40, (posy*100)+40, self.get_x(),self.get_y())
+            reelGrid.main()
             self.get_sensor().mesure_performance(self, a)
             # for x in range(0, 5):
             #     for y in range(0, 5):

@@ -54,10 +54,11 @@ class Grid:
                 self._arr[int(x/100)][int(y/100)] = Case(int(x/100),int(y/100),False,False,self)
                 
     def clone(self):
+        print('ON EST A MONTREAL PAS AU FABELA')
         clone_array = [[0 for i in range(0,5)] for y in range(0,5)] 
         for x in range(0, self.get_width(),  self.get_block()):
             for y in range(0, self.get_height(), self.get_block()):
-                clone_array[int(x/100)][int(y/100)] = self._arr[int(x/100)][int(y/100)]
+                clone_array[int(x/100)][int(y/100)] = self._arr[int(x/100)][int(y/100)].clone()
         return clone_array
         
     

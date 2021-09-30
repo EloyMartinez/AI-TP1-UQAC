@@ -24,17 +24,21 @@ def gestion_grille(grille):
 '''
 
 def gestion_aspi(aspi, grille):
+    count = 0
+    intMesure = 1
     while True:
         #print(grille.get_arr()[aspi.get_x()][aspi.get_y()].get_jewel())
         mutex.acquire()
         try:
-            aspi.useSensor(grille)
+            aspi.useSensor(grille,count,intMesure)
+            count = count + 1
         finally:
             mutex.release()
-        aspi.setIntent()
+        aspi.setIntentBFS()
+        print("NTMMMMMMMMM : "+  str(aspi.get_bdi().get_intent()))
         aspi.get_bdi().get_intent()
-        aspi.update_pos(grille)
-        time.sleep(0.5)
+        aspi.update_pos(aspi.get_bdi().get_belief(), grille)
+        time.sleep(1)
 
         
 

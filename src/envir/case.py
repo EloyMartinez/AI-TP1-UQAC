@@ -69,7 +69,7 @@ class Case:
        # print("Dans le generate dirt")
         prob = random.random()
         if (not self.get_dirt()):
-            if(prob<0.3):
+            if(prob<0.1):
                     #print("TRUUUE")
                     self.set_dirt(True)
                     #print("generate : " + str(self.get_dirt()))
