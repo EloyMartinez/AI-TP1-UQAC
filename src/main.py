@@ -1,4 +1,3 @@
-import threading
 from envir.grid import Grid
 from envir.case import Case
 from agent.aspi import Aspi
@@ -8,17 +7,15 @@ from agent.effecteurs import Effecteurs
 import time
 import random
 import threading as thrd
-from threading import Thread
 
 
 ## GESTION DES THREADS
 
 mutex = thrd.Lock()
 
-# Fonction qui va gerer l'aspirateur (Appelé dans un thread)
-def gestion_aspi(aspi, grille):
+def gestion_aspi(aspi, grille, lock):
     count = 0
-    intMesure = 10
+    intMesure = 1
     while True:
         mutex.acquire()
         try:
@@ -32,7 +29,7 @@ def gestion_aspi(aspi, grille):
         aspi.setIntentDFS()
         
         #Puis va mettre a jour la position de l'aspi et regler la grille
-        aspi.update_pos(aspi.get_bdi().get_belief(), grille)
+        aspi.update_pos(aspi.get_bdi().get_belief(), grille, lock)
         time.sleep(1)
 
         
@@ -53,20 +50,36 @@ if __name__ == "__main__":
     #t1.setDaemon(True)
     #t1.start()
 
-    t2 = thrd.Thread(target = gestion_aspi, args=(aspi,grille,))
+    t2 = thrd.Thread(target = gestion_aspi, args=(aspi,grille, mutex,))
     t2.start()
 
 
-    grille.main()
+    # grille.main()
 
-    #Boucle d'environement
-    cmt = 1
-    while True:
-        grille.generate_environment()
-        time.sleep(1)
-        print("\nPERFORMANCE " + str(cmt) + " : "+str(aspi.get_sensor().get_performance()) + "\n")
-        cmt = cmt+1
+    # #Boucle d'environement
+    # cmt = 1
+    # while True:
+    #     grille.generate_environment()
+    #     time.sleep(1)
+    #     print("\nPERFORMANCE " + str(cmt) + " : "+str(aspi.get_sensor().get_performance()) + "\n")
+    #     cmt = cmt+1
    
+
+    mutex.acquire()
+    cmp = 1
+    try:
+        grille.main()
+    finally:
+            mutex.release()
+    while True:
+        mutex.acquire()
+        try:
+            grille.generate_environment()
+        finally:
+            mutex.release()
+        time.sleep(1)
+        print("\nPERFORMANCE " + str(cmp) + " : " +str(aspi.get_sensor().get_performance()) + "\n")
+        cmp=cmp+1
 
 
 
