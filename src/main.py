@@ -30,7 +30,6 @@ def gestion_aspi(aspi, grille):
         
         #L'aspi va mettre a jour sa liste d'action a réaliser
         aspi.setIntentDFS()
-        #aspi.get_bdi().get_intent()
         
         #Puis va mettre a jour la position de l'aspi et regler la grille
         aspi.update_pos(aspi.get_bdi().get_belief(), grille)
