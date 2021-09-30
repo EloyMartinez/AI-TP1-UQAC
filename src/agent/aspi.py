@@ -4,6 +4,7 @@ from agent.noeud import Noeud
 from agent.sensor import sensor
 from agent.effecteurs import Effecteurs
 import time
+import threading
 
 class Aspi:
 
@@ -325,30 +326,34 @@ class Aspi:
             visited.append(currentNode.get_currentCase().get_coords())
             return self.dfsRecursive(arr,queue,visited,currentNode)
             
-    def update_pos(self, grid, reelGrid):
+    def update_pos(self, grid, reelGrid, lock):
         action = self.get_bdi().get_intent()
         action.reverse()
       #  print("\n\n\  ")
         for a in action:
           #  print("\n" + a + "\n")
-            if(a == "suck"):
-               # print("Clean case : " + str(self.get_x()) + " - " + str(self.get_y()))
-                self.get_effecteurs().clean_case(grid[self.get_x()][self.get_y()])
-                self.get_effecteurs().clean_case(reelGrid.get_arr()[self.get_x()][self.get_y()])
-                reelGrid.update_dirt((self.get_x()*100), (self.get_y()*100))
-                reelGrid.update_jewel(self.get_x()*100, (self.get_y()*100))
-            elif(a == "grab"):
-               # print("Grab case : " + str(self.get_x()) + " - " + str(self.get_y()))
-                self.get_effecteurs().grab_jewel(reelGrid.get_arr()[self.get_x()][self.get_y()])
-                self.get_effecteurs().grab_jewel(grid[self.get_x()][self.get_y()])
-                reelGrid.update_jewel(self.get_x()*100, (self.get_y()*100))
-            else:
-              #  print("GRAB OR SUCK")
-                posx = self.get_x()
-                posy = self.get_y()
-                self.get_effecteurs().move(self,a)
-                reelGrid.update_vaccum((posx*100)+40, (posy*100)+40, self.get_x(),self.get_y())
-            reelGrid.main()
+            lock.acquire()
+            try:
+                if(a == "suck"):
+                # print("Clean case : " + str(self.get_x()) + " - " + str(self.get_y()))
+                    self.get_effecteurs().clean_case(grid[self.get_x()][self.get_y()])
+                    self.get_effecteurs().clean_case(reelGrid.get_arr()[self.get_x()][self.get_y()])
+                    reelGrid.update_dirt((self.get_x()*100), (self.get_y()*100))
+                    reelGrid.update_jewel(self.get_x()*100, (self.get_y()*100))
+                elif(a == "grab"):
+                # print("Grab case : " + str(self.get_x()) + " - " + str(self.get_y()))
+                    self.get_effecteurs().grab_jewel(reelGrid.get_arr()[self.get_x()][self.get_y()])
+                    self.get_effecteurs().grab_jewel(grid[self.get_x()][self.get_y()])
+                    reelGrid.update_jewel(self.get_x()*100, (self.get_y()*100))
+                else:
+                #  print("GRAB OR SUCK")
+                    posx = self.get_x()
+                    posy = self.get_y()
+                    self.get_effecteurs().move(self,a)
+                    reelGrid.update_vaccum((posx*100)+40, (posy*100)+40, self.get_x(),self.get_y())
+                reelGrid.main()
+            finally:
+                lock.release()
             self.get_sensor().mesure_performance(self, a)
             # for x in range(0, 5):
             #     for y in range(0, 5):

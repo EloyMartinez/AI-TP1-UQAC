@@ -1,4 +1,3 @@
-import threading
 from envir.grid import Grid
 from envir.case import Case
 from agent.aspi import Aspi
@@ -8,7 +7,6 @@ from agent.effecteurs import Effecteurs
 import time
 import random
 import threading as thrd
-from threading import Thread
 
 
 ## GESTION DES THREADS
@@ -23,7 +21,7 @@ def gestion_grille(grille):
         time.sleep(10)
 '''
 
-def gestion_aspi(aspi, grille):
+def gestion_aspi(aspi, grille, lock):
     count = 0
     intMesure = 1
     while True:
@@ -39,7 +37,7 @@ def gestion_aspi(aspi, grille):
         aspi.setIntent()
         print("NTMMMMMMMMM : "+  str(aspi.get_bdi().get_intent()))
         aspi.get_bdi().get_intent()
-        aspi.update_pos(aspi.get_bdi().get_belief(), grille)
+        aspi.update_pos(aspi.get_bdi().get_belief(), grille, lock)
         time.sleep(1)
 
         
@@ -65,7 +63,7 @@ if __name__ == "__main__":
     ### THREAD NE MARCHE PAS
     #t1 = thrd.Thread(target = gestion_grille, args=(grille,))
     #t1.setDaemon(True)
-    t2 = thrd.Thread(target = gestion_aspi, args=(aspi,grille,))
+    t2 = thrd.Thread(target = gestion_aspi, args=(aspi,grille, mutex,))
     #t1.start()
     t2.start()
 
@@ -76,9 +74,17 @@ if __name__ == "__main__":
     #         print("DIRT :" + str(aspi.get_bdi().get_belief()[x][y].get_dirt()))
     #         print("JEWEL :" + str(aspi.get_bdi().get_belief()[x][y].get_jewel()))
 
-    grille.main()
+    mutex.acquire()
+    try:
+        grille.main()
+    finally:
+            mutex.release()
     while True:
-        grille.generate_environment()
+        mutex.acquire()
+        try:
+            grille.generate_environment()
+        finally:
+            mutex.release()
         time.sleep(5)
         print("\nPERFORMANCE : " +str(aspi.get_sensor().get_performance()) + "\n")
     # print("Tour 2 case 0,0 : " + str(grille.get_arr()[0][0].get_dirt()))
