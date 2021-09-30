@@ -34,7 +34,9 @@ def gestion_aspi(aspi, grille):
             count = count + 1
         finally:
             mutex.release()
-        aspi.setIntentBFS()
+        #aspi.setIntentBFS()
+        #aspi.setIntentDFS()
+        aspi.setIntent()
         print("NTMMMMMMMMM : "+  str(aspi.get_bdi().get_intent()))
         aspi.get_bdi().get_intent()
         aspi.update_pos(aspi.get_bdi().get_belief(), grille)

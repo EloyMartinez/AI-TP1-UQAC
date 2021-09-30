@@ -135,6 +135,26 @@ class Aspi:
             node = node.get_parent()
             actionList.append(action)
         self.get_bdi().set_intent(actionList)
+        
+    #Fonction qui va affecter a l'aspi une liste d'action
+    def setIntentDFS(self):
+        action = 'forceStart'  ## This action will allow us to check further actions
+        actionList = []
+       # print("get belief " + str(self.get_bdi().get_belief())) 
+        # print()
+        # print("*******************************************************************************************************************************")
+        # print()
+       # print(self.get_bdi().get_belief())
+        node = self.dfsSearch(self.get_bdi().get_belief())
+        # print("Current Case x : " + str(node.get_currentCase().get_x()))
+        # print("Current Case y : " + str(node.get_currentCase().get_y()))
+
+        while(action != 'origin'):
+            action = node.get_action()
+           # print("Action : " + str(action))
+            node = node.get_parent()
+            actionList.append(action)
+        self.get_bdi().set_intent(actionList)
     
     #Algo de recherche informé
     def aStar(self,grid):
@@ -271,6 +291,39 @@ class Aspi:
         else:
             visited.append(currentNode.get_currentCase().get_coords())
             return self.bfsRecursive(arr,queue,visited,currentNode)
+        
+    def dfsSearch(self,grid):
+        queue = []
+        visited = []
+        startNode = Noeud(None,0,0,'origin',0,grid[self.get_x()][self.get_y()]) 
+        result =  self.dfsRecursive(grid,queue,visited,startNode)
+        if result == None:
+            return startNode
+        else:
+            return result
+    
+    def dfsRecursive(self,arr,queue,visited,node):
+        queue =    node.expandBFS(arr,visited) + queue  
+        currentNode = queue[0]
+        del queue[0]
+        if queue == []:
+            return None
+        if(currentNode.get_depth() > 20):
+            return None
+        if currentNode.get_currentCase().get_jewel() == True:
+            if(currentNode.get_parent() == None):
+                    currentNode = Noeud(currentNode,1,0,'grab',currentNode.get_depth()+1, currentNode.get_currentCase())
+            else:
+                    currentNode = Noeud(currentNode,currentNode.get_parent().get_cost()+1,0,'grab',currentNode.get_depth()+1, currentNode.get_currentCase())
+        if currentNode.get_currentCase().get_dirt() == True:
+            if(currentNode.get_parent() == None):
+                    currentNode = Noeud(currentNode,1,0,'suck',currentNode.get_depth()+1, currentNode.get_currentCase())
+            else:
+                    currentNode = Noeud(currentNode,currentNode.get_parent().get_cost()+1,0,'suck',currentNode.get_depth()+1, currentNode.get_currentCase())
+            return currentNode
+        else:
+            visited.append(currentNode.get_currentCase().get_coords())
+            return self.dfsRecursive(arr,queue,visited,currentNode)
             
     def update_pos(self, grid, reelGrid):
         action = self.get_bdi().get_intent()
