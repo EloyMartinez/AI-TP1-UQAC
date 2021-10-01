@@ -13,9 +13,10 @@ black_color = (0,0,0)
 
 class Grid:
 
-    ### Constructeur
+    ### Constructeur  
     def __init__(self):
         pygame.init()
+        pygame.display.set_caption('Travail n°1 - UQAC - 8INF846')
         self._height = 500
         self._cols = 5
         self._rows = 5
@@ -94,9 +95,9 @@ class Grid:
 
     def display_jewel(self,x,y):
         #print("add_jewel : " + str(x) + "  " +str(y))
-        jewel = pygame.image.load('envir/img/jewel.png')
-        pic_jewel = pygame.transform.scale(jewel, (50, 50))
-        self._screen.blit(pic_jewel, (x+50,y-9))
+        jewel = pygame.image.load('envir/img/diamond.png')
+        pic_jewel = pygame.transform.scale(jewel, (30, 30))
+        self._screen.blit(pic_jewel, (x+60,y+5))
 
 
     def add_vaccum(self, x, y):

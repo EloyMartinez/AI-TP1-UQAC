@@ -357,7 +357,7 @@ class Aspi:
             self.get_sensor().mesure_performance(self, a)
         
 
-            time.sleep(0.1)
+            time.sleep(0.2)
 
 
 
