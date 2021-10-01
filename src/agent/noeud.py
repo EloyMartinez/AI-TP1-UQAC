@@ -48,7 +48,7 @@ class Noeud:
     #Fonction qui calcule la norme entre la case courante et la case goal
     def norme(self,currentcase,goal):
         return (abs(goal.get_x() - currentcase.get_x()) + abs(goal.get_y() - currentcase.get_y()))
- 
+
     #Fonction liste les actions possible de la case courante
     def possibleActions(self):
         actions = []
@@ -65,7 +65,7 @@ class Noeud:
         if self._currentCase.get_y() != 0:
             actions.append("up")
         return actions
-    
+
 
     #Fonction qui va simuler les actions 
     def actionCase(self,action,grid):
@@ -88,7 +88,7 @@ class Noeud:
 
         return currentActionCase
 
-   
+
      #Fonction expand
     def expandBFS(self,grid,visited):
         succesors = []
@@ -123,7 +123,7 @@ class Noeud:
             return succesors
         else:
             return None ### we have to check if return is none
-    
+
     def actionCaseBFS(self,action,grid):
         #On clone a chaque fois donc ca bug
         currentActionCase = grid[self.get_currentCase().get_x()][self.get_currentCase().get_y()].clone()

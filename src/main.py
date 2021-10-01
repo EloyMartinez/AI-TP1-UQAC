@@ -25,15 +25,15 @@ def gestion_aspi(aspi, grille, lock):
             count = count + 1
         finally:
             mutex.release()
-        
+
         #L'aspi va mettre a jour sa liste d'action a réaliser
         aspi.setIntentDFS()
-        
+
         #Puis va mettre a jour la position de l'aspi et regler la grille
         aspi.update_pos(aspi.get_bdi().get_belief(), grille, lock)
         time.sleep(1)
 
-        
+
 
 
 ### MAIN
@@ -76,11 +76,3 @@ if __name__ == "__main__":
         time.sleep(1)
         print("\nPERFORMANCE " + str(cmp) + " : " +str(aspi.get_sensor().get_performance()) + "\n")
         cmp=cmp+1
-
-
-
-   
-
-
-
-

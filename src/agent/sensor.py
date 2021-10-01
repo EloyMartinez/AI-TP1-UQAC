@@ -1,18 +1,18 @@
 class sensor:
-    
+
     def __init__(self,isOn):
         self._isOn = isOn
         self.perfomance = 0
 
     def get_performance(self):
         return self.perfomance
-    
+
     def set_performance(self, new_performance):
         self.perfomance = new_performance
-        
+
     def capture(self,grid):
         return grid.clone()
-    
+
     def mesure_performance(self,aspi,action):
         perf = self.get_performance()
         if(action=='grab'):
@@ -31,8 +31,3 @@ class sensor:
             print("-1 car bouger")
             perf = perf - 1 #pour tout autre mouvement   ##si on bouge pas on depense pas d'energie
         self.set_performance(perf)
-    
-
-     
-        
-    

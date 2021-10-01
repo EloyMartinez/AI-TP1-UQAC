@@ -14,22 +14,22 @@ class Aspi:
         self._effecteurs= Effecteurs()
         self._bdi = Bdi()
         self._sensor = sensor(True)
-    
+
     def get_x(self):        
         return self._x
-    
+
     def set_x(self, x): 
         self._x = x 
 
     def get_y(self):
         return self._y
-    
+
     def set_y(self, y): 
         self._y = y 
 
     def get_ressoucres(self):
         return self._ressources
-    
+
     def get_effecteurs(self):
         return self._effecteurs
 
@@ -38,14 +38,14 @@ class Aspi:
 
     def get_sensor(self): 
         return self._sensor
-        
+
     def get_bdi(self):
         return self._bdi
-    
+
     def set_bdi(self,bdi):
         self._bdi=bdi
-    
-   
+
+
     #Fonction qui va permettre à l'aspirateur de connaître la grille
     def useSensor(self,grid,count,intMesure):
         if ((count % intMesure) == 0) or count < 3:
@@ -53,7 +53,7 @@ class Aspi:
             self._bdi.set_belief(newgrid)
             print("-1 use sensor")
             self.get_sensor().set_performance(self.get_sensor().get_performance()-1)
-       
+
     #Fonction qui va permettre de trouver la case sale la plus proche
     def findBoxGoal(self):
         closest = []  #This is an object : supposed to be a case
@@ -70,14 +70,14 @@ class Aspi:
         #A la fin du parcours de toutes les cases
         #Vérifie si le tableau est vide
         if(closest == []):
-            return None  ### !!!!! WE HAVE TO CHECK IF RESULT IS NOT NONE
+            return None
         #On retourne la case
         return closest
-    
+
     #Fonction pour calculer la norme entre 2 cases : la case actuelle et la case que l'on veut comparer
     def norme(self,potentialGoal):
         return (abs(potentialGoal.get_x() - self.get_x()) + abs(potentialGoal.get_y() - self.get_y()))
-            
+
     def distance(self,closestBox,currentCase):
         if closestBox == []:
             return True
@@ -86,7 +86,7 @@ class Aspi:
                 return True
             else:
                 return False
-   
+
 
     #Fonction qui va affecter à l'aspi une liste d'action
     def setIntent(self):
@@ -101,7 +101,7 @@ class Aspi:
             node = node.get_parent()
             action = node.get_action()      
         self.get_bdi().set_intent(actionList)
-        
+
     #Fonction qui va affecter a l'aspi une liste d'action
     def setIntentBFS(self):
         action = 'forceStart'  ## This action will allow us to check further actions
@@ -113,7 +113,7 @@ class Aspi:
             node = node.get_parent()
             actionList.append(action)
         self.get_bdi().set_intent(actionList)
-        
+
     #Fonction qui va affecter a l'aspi une liste d'action
     def setIntentDFS(self):
         action = 'forceStart'  ## This action will allow us to check further actions
@@ -125,7 +125,7 @@ class Aspi:
             node = node.get_parent()
             actionList.append(action)
         self.get_bdi().set_intent(actionList)
-    
+
     #Algo de recherche informé
     def aStar(self,grid):
         #On trouve la case que l'on veut
@@ -135,14 +135,11 @@ class Aspi:
             return Noeud(None,0,0,'origin',0,grid[self.get_x()][self.get_y()]); 
         else:
             startNode = Noeud(None,0,self.norme(goal),'origin',0,grid[self.get_x()][self.get_y()]) 
-        
+
         nodelist = []
         nodelist.append(startNode)
-        #GRAB N'EST PAS PRIORITAIRE A REGLER
-        #
         while(not self.isSuck(nodelist[0])):
-            
-            # print("Dans le while isGrabOrSuck")
+
             node = nodelist[0]
 
             if self.isGrab(nodelist[0]):
@@ -155,11 +152,8 @@ class Aspi:
 
             self.sort(nodelist)
 
-        ## ERREUR ICI, NE TROUVE PAS TJRS LE BON CHEMIN
         return nodelist[0]
-        
-    #Point a mettre en global 
-    #Voir ou utiliser cette fonction
+
     def mesurePerformance(self,action,node):
         point = self.get_points()
         if(action=='grab'):
@@ -173,7 +167,7 @@ class Aspi:
         else:
             point = point - 1 #pour tout autre mouvement   ##si on bouge pas on depense pas d'energie
         self.set_points(point)
-            
+
     #Calculer le cout 
     def calculateCost(self,node):
         action = 'forceStart' 
@@ -183,35 +177,35 @@ class Aspi:
             cost = cost + node.get_cost()
             node = node.get_parent()
         return cost
-        
 
-    ##A voir
+
+    #Renvoie True si l'action du noeud est d'aspirer ou de ramasser
     def isGrabOrSuck(self,node):
         if(node.get_action()=='grab' or node.get_action()=='suck'):
             return True
         else:
             return False
 
-    ##A voir
+    #Renvoie True si l'action est d'aspirer
     def isSuck(self,node):
         if(node.get_action()=='suck'):
             return True
         else:
             return False
 
-    ##A voir
+    #Renvoie True si l'action est de ramasser
     def isGrab(self,node):
         if(node.get_currentCase().get_jewel()==1):
             return True
         else:
             return False
-       
-       
+
+
 
     #Fonction pour trier les noeuds en fonction de leur cout et distance
     def sort(self, list_noeud):
         list_noeud.sort(key=lambda x: int(x.get_cost())+int(x.get_distance()))
-        
+
     def bfsSearch(self,grid):
         queue = []
         visited = []
@@ -221,7 +215,7 @@ class Aspi:
             return startNode
         else:
             return result
-    
+
     def bfsRecursive(self,arr,queue,visited,node):
         queue =    queue + node.expandBFS(arr,visited) ### node.expandBFS(arr,visited) + queue pour faire depth search
         currentNode = queue[0]
@@ -244,7 +238,7 @@ class Aspi:
         else:
             visited.append(currentNode.get_currentCase().get_coords())
             return self.bfsRecursive(arr,queue,visited,currentNode)
-        
+
     def dfsSearch(self,grid):
         queue = []
         visited = []
@@ -254,7 +248,7 @@ class Aspi:
             return startNode
         else:
             return result
-    
+
     def dfsRecursive(self,arr,queue,visited,node):
         queue =    node.expandBFS(arr,visited) + queue  
         currentNode = queue[0]
@@ -277,7 +271,7 @@ class Aspi:
         else:
             visited.append(currentNode.get_currentCase().get_coords())
             return self.dfsRecursive(arr,queue,visited,currentNode)
-            
+
     def update_pos(self, grid, reelGrid, lock):
         action = self.get_bdi().get_intent()
         action.reverse()
@@ -302,7 +296,7 @@ class Aspi:
             finally:
                 lock.release()
             self.get_sensor().mesure_performance(self, a)
-        
+
 
             time.sleep(0.1)
 

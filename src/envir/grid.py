@@ -25,15 +25,15 @@ class Grid:
         self._screen.fill(white_color)
         self._arr = [[0 for i in range(0,5)] for y in range(0,5)] 
 
-    
-    
+
+
     ### Getters/Setters
     def get_width(self):
         return self._width
-    
+
     def get_height(self):
         return self._height
-        
+
     def get_block(self):
         return self._blocksize
 
@@ -43,7 +43,7 @@ class Grid:
 
 
     ### Methodes
-    
+
     #Fonction pour initialiser la grille
     #On va parcourir x et y de 0 à 500 avec un pas de 100
     def initialize(self):
@@ -51,15 +51,15 @@ class Grid:
             for y in range(0, self.get_height(), self.get_block()):
                 pygame.draw.rect(self._screen, black_color, (x, y, self._blocksize, self._blocksize), 2)
                 self._arr[int(x/100)][int(y/100)] = Case(int(x/100),int(y/100),False,False,self)
-                
+
     def clone(self):
         clone_array = [[0 for i in range(0,5)] for y in range(0,5)] 
         for x in range(0, self.get_width(),  self.get_block()):
             for y in range(0, self.get_height(), self.get_block()):
                 clone_array[int(x/100)][int(y/100)] = self._arr[int(x/100)][int(y/100)].clone()
         return clone_array
-        
-    
+
+
     #Fonction pour generer les bijoux et salete
     def generate_environment(self):
         for i in range(0,self._cols):
@@ -76,7 +76,7 @@ class Grid:
 
     def add_dirt(self,x,y):
         self.display_dirt((x*100),(y*100))
-                    
+
     #Fontion d'execution
     def execute(self):
         self.generate_environment()
@@ -86,7 +86,7 @@ class Grid:
         dirt = pygame.image.load('envir/img/dirt.png')
         pic_dirt = pygame.transform.scale(dirt, (40, 40))
         self._screen.blit(pic_dirt, (x,y))
-        
+
 
 
     def display_jewel(self,x,y):
@@ -109,7 +109,7 @@ class Grid:
 
     def update_dirt(self, x_vaccum, y_vaccum):
         pygame.draw.rect(self._screen,white_color, (x_vaccum+2, y_vaccum+2, 40,40))
-    
+
     def update_jewel(self, x_vaccum, y_vaccum):
         pygame.draw.rect(self._screen,white_color, (x_vaccum+49, y_vaccum+2, 49,37))
 
@@ -125,4 +125,3 @@ class Grid:
     #Boucle pour l'affichage de la grille
     def display(self):
         print(self.get_arr())
-               
