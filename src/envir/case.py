@@ -66,13 +66,10 @@ class Case:
                 self._jewel = False
     
     def generate_dirt(self):
-       # print("Dans le generate dirt")
         prob = random.random()
         if (not self.get_dirt()):
             if(prob<0.07):
-                    #print("TRUUUE")
                     self.set_dirt(True)
-                    #print("generate : " + str(self.get_dirt()))
                     self.get_grid().add_dirt(self.get_x(),self.get_y())
                     logging.info("Salete ajoute en "+str(self.get_x())+","+str(self.get_y()))
             else:

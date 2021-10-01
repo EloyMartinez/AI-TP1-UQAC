@@ -6,11 +6,9 @@ from envir.case import Case
 class Effecteurs:
 
     def grab_jewel(self, Case):
-        #print("ON MET JEWEL A FALSE : " + Case.get_coords() + "\n")
         Case.set_jewel(False)
     
     def clean_case(self, Case):
-        #print("ON MET JEWEL ET DIRT A FALSE : " + Case.get_coords() + "\n")
         Case.set_dirt(False)
         Case.set_jewel(False)
 

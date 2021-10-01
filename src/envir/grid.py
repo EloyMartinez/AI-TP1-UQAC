@@ -47,14 +47,12 @@ class Grid:
     #Fonction pour initialiser la grille
     #On va parcourir x et y de 0 à 500 avec un pas de 100
     def initialize(self):
-        #self.add_vaccum()
         for x in range(0, self.get_width(),  self.get_block()):
             for y in range(0, self.get_height(), self.get_block()):
                 pygame.draw.rect(self._screen, black_color, (x, y, self._blocksize, self._blocksize), 2)
                 self._arr[int(x/100)][int(y/100)] = Case(int(x/100),int(y/100),False,False,self)
                 
     def clone(self):
-        print('ON EST A MONTREAL PAS AU FABELA')
         clone_array = [[0 for i in range(0,5)] for y in range(0,5)] 
         for x in range(0, self.get_width(),  self.get_block()):
             for y in range(0, self.get_height(), self.get_block()):
@@ -85,7 +83,6 @@ class Grid:
 
 
     def display_dirt(self,x,y):
-        #print("add_dirt : " + str(x) + "  " +str(y))
         dirt = pygame.image.load('envir/img/dirt.png')
         pic_dirt = pygame.transform.scale(dirt, (40, 40))
         self._screen.blit(pic_dirt, (x,y))
@@ -93,7 +90,6 @@ class Grid:
 
 
     def display_jewel(self,x,y):
-        #print("add_jewel : " + str(x) + "  " +str(y))
         jewel = pygame.image.load('envir/img/jewel.png')
         pic_jewel = pygame.transform.scale(jewel, (50, 50))
         self._screen.blit(pic_jewel, (x+50,y-9))
