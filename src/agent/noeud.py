@@ -1,3 +1,9 @@
+#
+# Travail n°1 - IA - UQAC
+# Robot aspirateur
+#
+#
+
 class Noeud:
     
     def __init__(self, parent, cost ,distance, action, depth, currentCase):

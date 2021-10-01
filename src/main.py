@@ -1,3 +1,9 @@
+#
+# Travail n°1 - IA - UQAC
+# Robot aspirateur
+#
+#
+
 from envir.grid import Grid
 from envir.case import Case
 from agent.aspi import Aspi
@@ -27,12 +33,11 @@ def gestion_aspi(aspi, grille, lock):
             mutex.release()
 
         #L'aspi va mettre a jour sa liste d'action a réaliser
-        aspi.setIntentDFS()
+        aspi.setIntentDFS()  #DFS
 
         #Puis va mettre a jour la position de l'aspi et regler la grille
         aspi.update_pos(aspi.get_bdi().get_belief(), grille, lock)
         time.sleep(1)
-
 
 
 

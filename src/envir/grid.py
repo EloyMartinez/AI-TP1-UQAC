@@ -1,11 +1,15 @@
+#
+# Travail n°1 - IA - UQAC
+# Robot aspirateur
+#
+#
+
 import os
 #Hide pygame message
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 import sys
-import random
 from envir.case import Case
-import time
 
 white_color = (230, 230, 230)
 black_color = (0,0,0)

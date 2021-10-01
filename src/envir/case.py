@@ -1,6 +1,11 @@
+#
+# Travail n°1 - IA - UQAC
+# Robot aspirateur
+#
+#
+
 import random  
 import logging
-import pygame
 #logging.basicConfig(level=logging.INFO) #To activate loggers
 
 
@@ -67,12 +72,7 @@ class Case:
     def generate_dirt(self):
         prob = random.random()
         if (not self.get_dirt()):
-<<<<<<< HEAD
             if(prob<0.03):
-                    #print("TRUUUE")
-=======
-            if(prob<0.07):
->>>>>>> e40fa633077af86f99a3db454b445547b5cc6d7a
                     self.set_dirt(True)
                     self.get_grid().add_dirt(self.get_x(),self.get_y())
                     logging.info("Salete ajoute en "+str(self.get_x())+","+str(self.get_y()))

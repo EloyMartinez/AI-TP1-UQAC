@@ -1,3 +1,9 @@
+#
+# Travail n°1 - IA - UQAC
+# Robot aspirateur
+#
+#
+
 import sys
 sys.path.append('../')
 from envir.case import Case

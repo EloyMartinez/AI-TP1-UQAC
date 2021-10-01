@@ -1,10 +1,14 @@
+#
+# Travail n°1 - IA - UQAC
+# Robot aspirateur
+#
+#
 
 from agent.bdi import Bdi
 from agent.noeud import Noeud
 from agent.sensor import sensor
 from agent.effecteurs import Effecteurs
 import time
-import threading
 
 class Aspi:
 
