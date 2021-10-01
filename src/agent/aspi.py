@@ -14,22 +14,22 @@ class Aspi:
         self._effecteurs= Effecteurs()
         self._bdi = Bdi()
         self._sensor = sensor(True)
-    
+
     def get_x(self):        
         return self._x
-    
+
     def set_x(self, x): 
         self._x = x 
 
     def get_y(self):
         return self._y
-    
+
     def set_y(self, y): 
         self._y = y 
 
     def get_ressoucres(self):
         return self._ressources
-    
+
     def get_effecteurs(self):
         return self._effecteurs
 
@@ -38,51 +38,46 @@ class Aspi:
 
     def get_sensor(self): 
         return self._sensor
-        
+
     def get_bdi(self):
         return self._bdi
-    
+
     def set_bdi(self,bdi):
         self._bdi=bdi
-    
-   
-    #Fonction qui va permettre à l'aspirateur de connaitre la grille
+
+
+    #Fonction qui va permettre à l'aspirateur de connaître la grille
     def useSensor(self,grid,count,intMesure):
-        print('INSIDE USE SENSOR')
         if ((count % intMesure) == 0) or count < 3:
-            print('MODULO IS RESPECTED')
             newgrid = self._sensor.capture(grid)
             self._bdi.set_belief(newgrid)
             print("-1 use sensor")
             self.get_sensor().set_performance(self.get_sensor().get_performance()-1)
-       
-    #Fonction qui va permettre de trouver la case sale la plus proche de nous
+
+    #Fonction qui va permettre de trouver la case sale la plus proche
     def findBoxGoal(self):
         closest = []  #This is an object : supposed to be a case
         for x in range(0, 5):
             for y in range(0, 5):
-                #Pour chaque Case de la grille que connait l'aspi
+                #Pour chaque Case de la grille que connaît l'aspirateur
                 currentCase = self.get_bdi().get_belief()[x][y]
-               # print("x : " + str(x) + " - y: " + str(y) + "//  currentCase :" +str(currentCase))
-                #Check pour voir la saleté
+                #Vérifie s'il y a de la saleté
                 if(currentCase.get_dirt()):
-                    #Si sale alors on clacule la distance avec la case courante avec distance()
+                    #Si sale alors on calcule la distance avec la case courante avec distance()
                     if(self.distance(closest,currentCase)):
                         #Si c'est la plus proche on affecte cette case a closest
                         closest = currentCase
         #A la fin du parcours de toutes les cases
-        #Check si le tableau est vide
+        #Vérifie si le tableau est vide
         if(closest == []):
-            return None  ### !!!!! WE HAVE TO CHECK IF RESULT IS NOT NONE
+            return None
         #On retourne la case
-     #   print("La case la plus proche " + str(closest))
-      #  print("La case la plus proche X : " +str(closest.get_x()) + " // y : " + str(closest.get_y()))
         return closest
-    
+
     #Fonction pour calculer la norme entre 2 cases : la case actuelle et la case que l'on veut comparer
     def norme(self,potentialGoal):
         return (abs(potentialGoal.get_x() - self.get_x()) + abs(potentialGoal.get_y() - self.get_y()))
-            
+
     def distance(self,closestBox,currentCase):
         if closestBox == []:
             return True
@@ -91,118 +86,74 @@ class Aspi:
                 return True
             else:
                 return False
-   
 
-    #Fonction qui va affecter a l'aspi une liste d'action
+
+    #Fonction qui va affecter à l'aspi une liste d'action
     def setIntent(self):
         action = 'forceStart'  ## This action will allow us to check further actions
         actionList = []
         node = self.aStar(self.get_bdi().get_belief())
-        print(str(self.get_bdi().get_belief()[0][0].get_dirt()) + 'LOOOK HERREEE M8888')
 
 
-        # print("Current Case x : " + str(node.get_currentCase().get_x()))
-        # print("Current Case y : " + str(node.get_currentCase().get_y()))
-        action = node.get_action()
-        # print("Action debut: " + str(action))            
+        action = node.get_action()            
         while(action != 'origin'):
-           # print("Action : " + str(action))  
             actionList.append(action)
             node = node.get_parent()
-            action = node.get_action()
-           # print(action)
-           # action = node.get_parent().get_action()
-           # print(action)       
+            action = node.get_action()      
         self.get_bdi().set_intent(actionList)
-        # print( self.get_bdi().get_intent())
-        # print("Voici les actions a réaliser : " + str(actionList))
-        
+
     #Fonction qui va affecter a l'aspi une liste d'action
     def setIntentBFS(self):
         action = 'forceStart'  ## This action will allow us to check further actions
         actionList = []
-       # print("get belief " + str(self.get_bdi().get_belief())) 
-        # print()
-        # print("*******************************************************************************************************************************")
-        # print()
-       # print(self.get_bdi().get_belief())
         node = self.bfsSearch(self.get_bdi().get_belief())
-        # print("Current Case x : " + str(node.get_currentCase().get_x()))
-        # print("Current Case y : " + str(node.get_currentCase().get_y()))
 
         while(action != 'origin'):
             action = node.get_action()
-           # print("Action : " + str(action))
             node = node.get_parent()
             actionList.append(action)
         self.get_bdi().set_intent(actionList)
-        
+
     #Fonction qui va affecter a l'aspi une liste d'action
     def setIntentDFS(self):
         action = 'forceStart'  ## This action will allow us to check further actions
         actionList = []
-       # print("get belief " + str(self.get_bdi().get_belief())) 
-        # print()
-        # print("*******************************************************************************************************************************")
-        # print()
-       # print(self.get_bdi().get_belief())
         node = self.dfsSearch(self.get_bdi().get_belief())
-        # print("Current Case x : " + str(node.get_currentCase().get_x()))
-        # print("Current Case y : " + str(node.get_currentCase().get_y()))
 
         while(action != 'origin'):
             action = node.get_action()
-           # print("Action : " + str(action))
             node = node.get_parent()
             actionList.append(action)
         self.get_bdi().set_intent(actionList)
-    
+
     #Algo de recherche informé
     def aStar(self,grid):
         #On trouve la case que l'on veut
         goal = self.findBoxGoal()
-        #print("\n\n\n******************************\nLE GOAL EST : " + str(goal) + "\n\n")
         #On instancie un noeud sans parent, avec la norme avec la goal case, comme action origin, profondeur de 0 et la case courante
         if(goal==None):
-            #print("goal is current case")
             return Noeud(None,0,0,'origin',0,grid[self.get_x()][self.get_y()]); 
         else:
             startNode = Noeud(None,0,self.norme(goal),'origin',0,grid[self.get_x()][self.get_y()]) 
-           # print("Goal find : En x " + str(goal.get_x()) + " - EN y " + str(goal.get_y()))
-        
+
         nodelist = []
         nodelist.append(startNode)
-        # print(startNode)
-        # print(nodelist)
-        # #
-        #GRAB N'EST PAS PRIORITAIRE A REGLER
-        #
         while(not self.isSuck(nodelist[0])):
-            
-            # print("Dans le while isGrabOrSuck")
-            # print(nodelist[0])
+
             node = nodelist[0]
 
             if self.isGrab(nodelist[0]):
-                #print("IS GRAB")
                 if(node.get_parent() == None):
                     node = Noeud(node,1,0,'grab',node.get_depth()+1, node.get_currentCase())
                 else:
                     node = Noeud(node,node.get_parent().get_cost()+1,0,'grab',node.get_depth()+1, node.get_currentCase())
-           # print(node.get_distance())
             del nodelist[0]
-            #print("Expand : " + str(node.expand(self.get_bdi().get_belief(),self,goal)))
-            nodelist = nodelist+node.expand(self.get_bdi().get_belief(),self,goal)  ## we want to add list of extended nodes into list of nodes  //array concatination
+            nodelist = nodelist+node.expand(self.get_bdi().get_belief(),self,goal)
 
             self.sort(nodelist)
-            
-          
-        ## ERREUR ICI, NE TROUVE PAS TJRS LE BON CHEMIN
-       # print("On va aller sur ici : " + str(nodelist[0].get_currentCase().get_coords()))
+
         return nodelist[0]
-        
-    #Point a mettre en global 
-    #Voir ou utiliser cette fonction
+
     def mesurePerformance(self,action,node):
         point = self.get_points()
         if(action=='grab'):
@@ -216,7 +167,7 @@ class Aspi:
         else:
             point = point - 1 #pour tout autre mouvement   ##si on bouge pas on depense pas d'energie
         self.set_points(point)
-            
+
     #Calculer le cout 
     def calculateCost(self,node):
         action = 'forceStart' 
@@ -226,39 +177,35 @@ class Aspi:
             cost = cost + node.get_cost()
             node = node.get_parent()
         return cost
-        
 
-    ##A voir
+
+    #Renvoie True si l'action du noeud est d'aspirer ou de ramasser
     def isGrabOrSuck(self,node):
         if(node.get_action()=='grab' or node.get_action()=='suck'):
             return True
         else:
             return False
-        # if(self.get_points() < (self.get_points() + self.calculateCost(node))):
-        #     return True
-        # else:s
-        #     return False
 
-    ##A voir
+    #Renvoie True si l'action est d'aspirer
     def isSuck(self,node):
         if(node.get_action()=='suck'):
             return True
         else:
             return False
 
-    ##A voir
+    #Renvoie True si l'action est de ramasser
     def isGrab(self,node):
         if(node.get_currentCase().get_jewel()==1):
             return True
         else:
             return False
-       
-       
+
+
 
     #Fonction pour trier les noeuds en fonction de leur cout et distance
     def sort(self, list_noeud):
         list_noeud.sort(key=lambda x: int(x.get_cost())+int(x.get_distance()))
-        
+
     def bfsSearch(self,grid):
         queue = []
         visited = []
@@ -268,10 +215,9 @@ class Aspi:
             return startNode
         else:
             return result
-    
+
     def bfsRecursive(self,arr,queue,visited,node):
         queue =    queue + node.expandBFS(arr,visited) ### node.expandBFS(arr,visited) + queue pour faire depth search
-       # print(node.get_currentCase().get_coords())
         currentNode = queue[0]
         del queue[0]
         if queue == []:
@@ -292,7 +238,7 @@ class Aspi:
         else:
             visited.append(currentNode.get_currentCase().get_coords())
             return self.bfsRecursive(arr,queue,visited,currentNode)
-        
+
     def dfsSearch(self,grid):
         queue = []
         visited = []
@@ -302,7 +248,7 @@ class Aspi:
             return startNode
         else:
             return result
-    
+
     def dfsRecursive(self,arr,queue,visited,node):
         queue =    node.expandBFS(arr,visited) + queue  
         currentNode = queue[0]
@@ -325,28 +271,23 @@ class Aspi:
         else:
             visited.append(currentNode.get_currentCase().get_coords())
             return self.dfsRecursive(arr,queue,visited,currentNode)
-            
+
     def update_pos(self, grid, reelGrid, lock):
         action = self.get_bdi().get_intent()
         action.reverse()
-      #  print("\n\n\  ")
         for a in action:
-          #  print("\n" + a + "\n")
             lock.acquire()
             try:
                 if(a == "suck"):
-                # print("Clean case : " + str(self.get_x()) + " - " + str(self.get_y()))
                     self.get_effecteurs().clean_case(grid[self.get_x()][self.get_y()])
                     self.get_effecteurs().clean_case(reelGrid.get_arr()[self.get_x()][self.get_y()])
                     reelGrid.update_dirt((self.get_x()*100), (self.get_y()*100))
                     reelGrid.update_jewel(self.get_x()*100, (self.get_y()*100))
                 elif(a == "grab"):
-                # print("Grab case : " + str(self.get_x()) + " - " + str(self.get_y()))
                     self.get_effecteurs().grab_jewel(reelGrid.get_arr()[self.get_x()][self.get_y()])
                     self.get_effecteurs().grab_jewel(grid[self.get_x()][self.get_y()])
                     reelGrid.update_jewel(self.get_x()*100, (self.get_y()*100))
                 else:
-                #  print("GRAB OR SUCK")
                     posx = self.get_x()
                     posy = self.get_y()
                     self.get_effecteurs().move(self,a)
@@ -355,7 +296,7 @@ class Aspi:
             finally:
                 lock.release()
             self.get_sensor().mesure_performance(self, a)
-        
+
 
             time.sleep(0.2)
 

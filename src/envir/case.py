@@ -18,10 +18,9 @@ class Case:
 
 
     # Getters/Setters
-    
     def get_coords(self):
         return self._coords
-    
+
     def get_jewel(self):
         return self._jewel
 
@@ -36,13 +35,13 @@ class Case:
 
     def get_x(self):        
         return self._x
-    
+
     def set_x(self, x): 
         self._x = x 
 
     def get_y(self):
         return self._y
-    
+
     def set_y(self, y): 
         self._y = y 
 
@@ -53,7 +52,7 @@ class Case:
         return self._grid
 
 
-    
+
     # Methodes
     def generate_jewel(self):
         prob = random.random()
@@ -64,20 +63,22 @@ class Case:
                     logging.info("Bijoux ajoute en "+str(self.get_x())+","+str(self.get_y()))
             else:
                 self._jewel = False
-    
+
     def generate_dirt(self):
-       # print("Dans le generate dirt")
         prob = random.random()
         if (not self.get_dirt()):
+<<<<<<< HEAD
             if(prob<0.03):
                     #print("TRUUUE")
+=======
+            if(prob<0.07):
+>>>>>>> e40fa633077af86f99a3db454b445547b5cc6d7a
                     self.set_dirt(True)
-                    #print("generate : " + str(self.get_dirt()))
                     self.get_grid().add_dirt(self.get_x(),self.get_y())
                     logging.info("Salete ajoute en "+str(self.get_x())+","+str(self.get_y()))
             else:
                 self._dirt = False
-     
+
     #force add dirt to enable easy testing       
     def forceDirt(self):                    
         self.set_dirt(True)
@@ -85,9 +86,7 @@ class Case:
     #force add jewel to enable easy testing       
     def forceJewel(self):                    
         self.set_jewel(True)
-        
-    
+
+
     def clone(self):
         return Case(self.get_x(),self.get_y(),self.get_jewel(),self.get_dirt(),self.get_grid())
- 
-        
