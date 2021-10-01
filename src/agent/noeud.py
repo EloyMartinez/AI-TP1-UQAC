@@ -125,7 +125,6 @@ class Noeud:
             return None ### we have to check if return is none
 
     def actionCaseBFS(self,action,grid):
-        #On clone a chaque fois donc ca bug
         currentActionCase = grid[self.get_currentCase().get_x()][self.get_currentCase().get_y()].clone()
         if(action == "grab"):
             currentActionCase.set_jewel(False)

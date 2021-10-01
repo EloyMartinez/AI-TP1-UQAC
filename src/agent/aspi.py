@@ -148,7 +148,7 @@ class Aspi:
                 else:
                     node = Noeud(node,node.get_parent().get_cost()+1,0,'grab',node.get_depth()+1, node.get_currentCase())
             del nodelist[0]
-            nodelist = nodelist+node.expand(self.get_bdi().get_belief(),self,goal)  ## we want to add list of extended nodes into list of nodes  //array concatination
+            nodelist = nodelist+node.expand(self.get_bdi().get_belief(),self,goal)
 
             self.sort(nodelist)
 
